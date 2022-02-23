@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'like',
     'chat',
     'point',
+    'core',
 ]
 
 MIDDLEWARE = [
