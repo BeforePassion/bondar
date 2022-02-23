@@ -15,8 +15,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
     function test() {
-      let file = $('#file-input')[0].files[0]
+      let image_url,
+        nst_image_url = ''
 
+      let file = $('#file-input')[0].files[0]
       let form_data = new FormData()
       form_data.append('key', 'aa')
       form_data.append('img', file)
@@ -25,6 +27,18 @@
         url: 'http://127.0.0.1:8080/api/v1/upload',
         data: form_data,
         crossDomain: true,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (response) {
+          image_url = response.original_file_url
+          nst_image_url = response.file_url
+        }
+      })
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'api-1.0.0:url' %}",
+        data: files_url,
         contentType: false,
         cache: false,
         processData: false,

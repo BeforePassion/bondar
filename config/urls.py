@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from ninja import NinjaAPI
+
+from userprofile.apis.v1.file_router import router as file_router
+
+api = NinjaAPI()
+api.add_router("/user-image-url/", file_router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/v1/", api.urls),
     path('user-edit/', include('userprofile.urls'))
 ]
