@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+</head>
+<body>
+    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <input id="chat-message-input" type="text" size="100"><br>
+    <input id="chat-message-submit" type="button" value="Send">
+    <!--room_name 을 핸들링 하는 json script-->
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        <!--roomName 변수에 room_name 할당-->
+        // JSON.parse() 메소드 : json 문자열의 구문을 분석하고 결과로 javascript 값이나 객체 생성
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        // chatSocket 변수에 생선된 webSocket 할당 / ws://ws/chat/roomName
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+        // chat-log id를 통해서 기존 message 에 추가해서 message 를 onmessage 해줌
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#chat-log').value += (data.message + '\n');
+        };
+
+        // 에러났을 때는 onclose
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        // 엔터를 눌러도 click 이벤트가 발생하게 처리
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        // onclick 이벤트가 발생하면 input value를 message에 저장해서 json형태로 chatSocket으로 전송
+        // chatSocket 전송이 완료되면 input box value 를 공백으로 초기화
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+</body>
+</html>

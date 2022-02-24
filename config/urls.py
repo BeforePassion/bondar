@@ -27,4 +27,5 @@ urlpatterns = [
     path("api/v1/", api.urls),
     path("user-edit/", include("userprofile.urls")),
     path("point/", include("point.urls")),
+    path("chat/", include("chat.urls")),
 ]
