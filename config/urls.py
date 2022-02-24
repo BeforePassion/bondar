@@ -20,7 +20,7 @@ from ninja import NinjaAPI
 from userprofile.apis.v1.file_router import router as file_router
 
 api = NinjaAPI()
-api.add_router("/user-image-url/", file_router)
+api.add_router("/images/", file_router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

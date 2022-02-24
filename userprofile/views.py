@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def test(reqeust):
-    return render(reqeust, 'test.html')
+    return render(reqeust, 'profile/test.html')
