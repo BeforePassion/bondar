@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  profile
+{% endblock page_title %}
+{% block content %}
+  <div>
+    <div>
+      <div></div>
+      <div>
+        <div id="profile-img" class="w-64 h-64"></div>
+        <input id='file-input' type="file">
+      </div>
+      <button onclick="image_url()">테스트</button>
+    </div>
+  </div>
+
+  <script>
+    function image_url() {
+      let original_image = ''
+      let nst_image = ''
+
+      let file = $('#file-input')[0].files[0];
+      let form_data = new FormData();
+      form_data.append('key', 'aa');
+      form_data.append('img', file);
+      $
+        .ajax({
+          type: 'POST',
+          url: 'http://127.0.0.1:8080/api/v1/upload',
+          data: form_data,
+          crossDomain: true,
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function (response) {
+            form_data.delete('key')
+            form_data.delete('img')
+            form_data.append('original_file_url', response.original_file_url)
+            form_data.append('nst_file_url', response.file_url)
+          }
+        })
+        .then(function (response) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'api-1.0.0:file' %}",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (response) {
+              console.log(response)
+            }
+          })
+        })
+    }
+  </script>
+{% endblock %}
