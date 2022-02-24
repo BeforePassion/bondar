@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -76,7 +77,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
+# Channels / 설치된 앱에 channels 이 있으면 runserver 명령을 제어해서 표쥰 django 개발 서버를 채널 개발 서버로 교체
+ASGI_APPLICATION = 'config.asgi.application'
 
+# Redis를 백업 저장소로 사용하는 채널 레이어를 사용
+# docker 6379포트 사용 / 공용으로 사용하려면 호스트를 어떻게??
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

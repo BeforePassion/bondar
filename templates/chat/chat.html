@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+</head>
+<body>
+    What chat room would you like to enter?<br>
+    <input id="room-name-input" type="text" size="100"><br>
+    <input id="room-name-submit" type="button" value="Enter">
+
+    <script>
+        // js querySelector 을 이용해서 room-name-input id 를 가진 객체를 가져온다
+        // .focus() : 포커스 받으면 이벤트 시작??
+        document.querySelector('#room-name-input').focus();
+        // input 박스에서 enter 누를 때 click 이벤트 발생
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            // room-name-submit 아이디를 가진 요소에 onclick 이벤트가 발생하면 roomName 변수 생성
+            var roomName = document.querySelector('#room-name-input').value;
+            // 해당 룸네임 url path로 이동
+            window.location.pathname = '/chat/' + roomName + '/';
+        };
+    </script>
+</body>
+</html>

@@ -11,6 +11,8 @@ black = "21.12b0"
 django-stubs = "1.9.0"
 mypy = "0.931"
 isort = "5.10.1"
+channels = "^3.0.4"
+channels-redis = "^3.3.1"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
