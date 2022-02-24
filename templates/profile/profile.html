@@ -1,27 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-  </head>
+{% block page_title %}
+  profile
+{% endblock page_title %}
+{% block content %}
+  <div>
+    <div>
+      <div></div>
+      <div>
+        <div id="profile-img" class="w-64 h-64"></div>
+        <input id='file-input' type="file">
+      </div>
+      <button onclick="image_url()">테스트</button>
+    </div>
+  </div>
 
-  <body>
-    <input id='file-input' type="file">
-    <button onclick="test()">테스트</button>
-  </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-    function test() {
+    function image_url() {
       let original_image = ''
       let nst_image = ''
 
-      let file = $('#file-input')[0].files[0]
-      let form_data = new FormData()
-      form_data.append('key', 'aa')
-      form_data.append('img', file)
+      let file = $('#file-input')[0].files[0];
+      let form_data = new FormData();
+      form_data.append('key', 'aa');
+      form_data.append('img', file);
       $
         .ajax({
           type: 'POST',
@@ -51,8 +53,6 @@
             }
           })
         })
-
     }
   </script>
-
-</html>
+{% endblock %}
