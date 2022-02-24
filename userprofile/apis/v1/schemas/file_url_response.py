@@ -2,4 +2,6 @@ from ninja import Schema
 
 
 class FileUrlResponse(Schema):
-    ok: bool
+    # user_id:int
+    original_image: str
+    nst_image: str
