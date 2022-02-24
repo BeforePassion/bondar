@@ -37,6 +37,14 @@ ignore_errors = true
 module = "manage"
 ignore_errors = true
 
+[[tool.mypy.overrides]]
+module = "config.asgi"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "chat.consumers"
+ignore_errors = true
+
 [tool.django-stubs]
 django_settings_module = "config.settings"
 
