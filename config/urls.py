@@ -28,4 +28,5 @@ urlpatterns = [
     path("user-edit/", include("userprofile.urls")),
     path("point/", include("point.urls")),
     path("chat/", include("chat.urls")),
+    path("welcome/", include("user.urls")),
 ]
