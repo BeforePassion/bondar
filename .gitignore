@@ -243,3 +243,9 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/django,python
 
 test.sh
+/node_modules/
+gulpfile.js
+tailwind.config.js
+package.json
+package-lock.json
+/assets/

@@ -1,5 +1,6 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 
-def test(reqeust):
-    return render(reqeust, "profile/test.html")
+def test(reqeust: HttpRequest) -> HttpResponse:
+    return render(reqeust, "profile/profile.html")
