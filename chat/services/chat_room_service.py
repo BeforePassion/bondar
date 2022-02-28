@@ -22,3 +22,7 @@ def get_an_chat_room(room_id: int) -> Room:
 
 def get_an_chat_room_list(user_id: int) -> QuerySet[RoomJoin]:
     return RoomJoin.objects.filter(user_id=user_id)
+
+
+def get_chat_room_user(room_id: int) -> QuerySet[RoomJoin]:
+    return RoomJoin.objects.filter(room_id=room_id)
