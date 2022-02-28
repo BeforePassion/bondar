@@ -1,4 +1,3 @@
-
 from chat.models.base_model import BaseModel
 
 

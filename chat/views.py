@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+
 from chat.services.chat_room_service import get_an_chat_room_list, get_chat_room_user
+
 
 # Create your views here. / views 호출하려면 매핑되는 URLconf 필요
 # chat_view 함수를 호출하면 chat.html 을 렌더해주는 함수
@@ -31,7 +33,7 @@ def chat_view(request: HttpRequest) -> HttpResponse:
         return render(request, "chat/chat.html", chat_info=chat_info)
     # 사용자가 없으면 로그인화면
     else:
-        return redirect(('/sign-in'))
+        return redirect(("/sign-in"))
 
 
 # room 함수를 호출하면 room.html 을 렌더해주는 함수 / dict 형태로 room_name value 를 전송

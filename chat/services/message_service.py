@@ -9,5 +9,3 @@ def creat_an_chat_room(user_id: int, room_id: int, message: str) -> Message:
 
 def get_an_message_list(room_id: int) -> QuerySet[Message]:
     return Message.objects.filter(room_id=room_id)
-
-
