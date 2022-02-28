@@ -1,12 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends '../base.html' %}
+{% block background %}
+  <div>
+    <div id='background'>
+      <div class='mask'></div>
+    </div>
+  </div>
+{% endblock %}
+{% block content %}
+        <div style="height: 100px"></div>
+
+  <div class="wrapper">
+    <div class="login-content">
+      <div class="form-content">
+        <form method="post" action='/welcome/sign-in/'>{% csrf_token %}
+          <h1 class="font-color-white login-title">로그인</h1>
+          <div class="form-floating mb-3 input">
+            <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
+            <label for="floatingInput">이메일</label>
+          </div>
+          <div class="form-floating mb-3 input">
+            <input type="password" class="form-control auth-input" id="password" name="password" placeholder="비밀번호"/>
+            <label for="floatingInput">비밀번호</label>
+          </div>
+          <div>{{ error }}</div>
+          <div class="btn-wrapper">
+            <button class="btn btn-red font-color-white" style="padding:13px">로그인</button>
+          </div>
+        </form>
+      </div>
+      <div class="second-form-content d-flex flex-column justify-content-end">
+        <div class='face-login'>
+          <div class="face-icon"></div>
+          <div>Facebook으로 로그인</div>
+        </div>
+        <div style="display:flex;">
+          <div style="margin:0 5px 15px 0;">Netflix 회원이 아닌가요?</div>
+          <a href="/sign-up" class="font-color-white">지금 가입하세요.</a>
+        </div>
+        <div>
+          <p>
+            이 페이지는 Google reCAPTCHA의 보호를 받아 사용자가 로봇이 아님을 확인합니다.
+          </p>
+          <a>자세히 알아보기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -146,3 +146,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.UserModel"
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.naver.com'
+# EMAIL_HOST_USER = '<네이버 ID>'
+# EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# DEFAULT_FROM_MAIL = '<네이버 ID>'
+
+

@@ -14,7 +14,9 @@
   <body>
     {% include "components/header.html" %}
     {% include "components/side_nav.html" %}
-    {% block content %}{% endblock %}
+    <div class="ml-72">
+      {% block content %}{% endblock %}
+    </div>
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="{% static 'js/profile.js' %}"></script>

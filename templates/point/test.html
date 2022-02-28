@@ -1,1 +1,27 @@
-<h1>hello world</h1>
+{% extends '../base.html' %}
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/point.css' %}">
+    <script type="text/javascript" src="{% static 'js/point.js'%}"></script>
+
+
+    <div class="main-container">
+        <div class="menu-container">
+            <button onclick="show_d1()">충전하기</button>
+            <button onclick="show_d2()">충전내역</button>
+            <button onclick="show_d3()">사용내역</button>
+            <button onclick="show_d4()">포인트 안내</button>
+
+        </div>
+
+        <div class="menu">
+            <div class="box" id="d1">충전하기 텍스트</div>
+            <div class="box" id="d2" style="display: none">충전내역 텍스트</div>
+            <div class="box" id="d3" style="display: none">사용내역 텍스트</div>
+            <div class="box" id="d4" style="display: none">포인트안내 텍스트</div>
+
+        </div>
+    </div>
+
+{% endblock %}

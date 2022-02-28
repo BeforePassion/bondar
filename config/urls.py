@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 from ninja import NinjaAPI
 
+from point.api import api_point  # 포인트 url
 from userprofile.apis.v1.file_router import router as file_router
+
+from core import views
 
 api = NinjaAPI()
 api.add_router("/images/", file_router)
@@ -27,6 +30,7 @@ urlpatterns = [
     path("api/v1/", api.urls),
     path("user-edit/", include("userprofile.urls")),
     path("point/", include("point.urls")),
+    path("api/point/", api_point.urls),  # 포인트 url
     path("chat/", include("chat.urls")),
     path("welcome/", include("user.urls")),
 ]
