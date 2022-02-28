@@ -1,13 +1,19 @@
 from datetime import datetime
+
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    AbstractUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 
 # Create your models here.
-class UserProfileManager(BaseUserManager): 
+class UserProfileManager(BaseUserManager):
     def create_user(self, email, password=None, username=None):
         if not email:
-            raise ValueError('Please provide an email address')
+            raise ValueError("Please provide an email address")
 
         email = self.normalize_email(email)
         user = self.model(email=email)
@@ -19,7 +25,7 @@ class UserProfileManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password):
-        """ Create a new superuser profile """
+        """Create a new superuser profile"""
         user = self.create_user(email, password)
         user.is_superuser = True
         user.is_staff = True
@@ -28,19 +34,20 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
+
 class UserModel(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255)
 
     objects = UserProfileManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-    
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
     class Meta:
         db_table = "user"
 
-    is_deleted = models.BooleanField(default=False, verbose_name='delete or not')
+    is_deleted = models.BooleanField(default=False, verbose_name="delete or not")
 
     deleted_at = models.DateTimeField(null=True)
 
@@ -50,4 +57,4 @@ class UserModel(AbstractUser):
         self.save()
 
     def __str__(self):
-     return self.email
+        return self.email
