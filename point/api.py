@@ -15,17 +15,21 @@ def mypoint(request, user_id: int):
 
 
 @api_point.post("/charge")
-def charge(request):
+def charge(request, point, uid):
     pass
 
 
 @api_point.get("/chargehistory")
-def chargehistory(request):
-    pass
+def chargehistory(request, uid):
+    data = PointHistory.objects.filter(user_id=uid, usage=True)
+
+    return data
 
 
 @api_point.get("/usagehistory")
-def usagehistory(request):
-    pass
+def usagehistory(request, uid):
+    data = PointHistory.objects.filter(user_id=uid, usage=False)
+
+    return data
 
 
