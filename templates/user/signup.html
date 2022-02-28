@@ -1,4 +1,53 @@
-{% extends "start_base.html" %}
+{% extends '../index.html' %}
+{% block header_btn %}
+  <ul style="list-style: none;">
+    <li class="">
+      <a class="btn btn-red font-color-white" href="/sign-in">
+        로그인
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block background %}
+  <div>
+    <div id='background'>
+      <div class='mask'></div>
+    </div>
+  </div>
+{% endblock %}
+{% block content %}
+  <div class="wrapper">
+    <div class="login-content">
+      <div class="form-content">
+        <form method="post" action='/sign-up/'>{% csrf_token %}
+          <h1 class="font-color-white login-title">회원가입</h1>
+          <div class="form-floating mb-3 input">
+            <input type="text" class="form-control auth-input" id="username" name="username" placeholder="유저네임"/>
+            <label for="floatingInput">유저네임</label>
+          </div>
+          <div class="form-floating mb-3 input">
+            <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
+            <label for="floatingInput">이메일</label>
+          </div>
+          <div class="form-floating mb-3 input">
+            <input type="password" class="form-control auth-input" id="password" name="password" placeholder="비밀번호"/>
+            <label for="floatingInput">비밀번호</label>
+          </div>
+          <div class="form-floating mb-3 input">
+            <input type="password" class="form-control auth-input" id="password2" name="password2" placeholder="비밀번호 확인"/>
+            <label for="floatingInput">비밀번호 확인</label>
+          </div>
+          <div>{{ error }}</div>
+          <div class="btn-wrapper">
+            <button class="btn btn-red font-color-white" style="padding:13px">회원가입</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% comment %} {% extends "start_base.html" %}
 {% load static %}
 {% block page_title %}
     Welcome
@@ -11,4 +60,4 @@
 <body>
     
 </body>
-</html>
+</html> {% endcomment %}
