@@ -13,3 +13,19 @@ def mypoint(request, user_id: int):
     except PointHistory.DoesNotExist as e:
         return 404, {"message": "기록이 존재하지 않습니다."}
 
+
+@api_point.post("/charge")
+def charge(request):
+    pass
+
+
+@api_point.get("/chargehistory")
+def chargehistory(request):
+    pass
+
+
+@api_point.get("/usagehistory")
+def usagehistory(request):
+    pass
+
+
