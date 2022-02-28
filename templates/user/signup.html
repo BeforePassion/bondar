@@ -1,5 +1,6 @@
-{% extends '../index.html' %}
+{% extends '../base.html' %}
 {% block header_btn %}
+
   <ul style="list-style: none;">
     <li class="">
       <a class="btn btn-red font-color-white" href="/sign-in">
@@ -16,10 +17,11 @@
   </div>
 {% endblock %}
 {% block content %}
+    <div style="height: 100px"></div>
   <div class="wrapper">
     <div class="login-content">
       <div class="form-content">
-        <form method="post" action='/sign-up/'>{% csrf_token %}
+        <form method="post" action='/welcome/sign-up/'>{% csrf_token %}
           <h1 class="font-color-white login-title">회원가입</h1>
           <div class="form-floating mb-3 input">
             <input type="text" class="form-control auth-input" id="username" name="username" placeholder="유저네임"/>

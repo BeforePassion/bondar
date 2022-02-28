@@ -35,7 +35,7 @@ def sign_up_view(request):
                     email=email, password=password)
                 user.username = username
                 user.save()
-                return redirect('/signin')
+                return redirect('/welcome/signin')
 
 
 def sign_in_view(request):

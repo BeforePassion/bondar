@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.core.validators import RegexValidator # 전화번호 유효성검사
+
 from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.core.validators import RegexValidator  # 전화번호 유효성검사
 from django.db import models
 
 
@@ -41,9 +42,8 @@ class UserModel(AbstractUser):
     username = models.CharField(max_length=255)
     friend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="friends")
     # point = models.IntegerField(default=0)
-    phoneNumberRegex = RegexValidator(regex = r'^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$') # 정규표현식을 사용한 전화번호 표기방식
-    phone = models.CharField(validators = [phoneNumberRegex], max_length = 11, unique = True)
-
+    phoneNumberRegex = RegexValidator(regex=r"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$")  # 정규표현식을 사용한 전화번호 표기방식
+    phone = models.CharField(validators=[phoneNumberRegex], max_length=11, unique=True)
 
     objects = UserProfileManager()
 
