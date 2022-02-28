@@ -29,30 +29,19 @@
     </button>
   </div>
   <script>
-    let list_pop = false
-
-    function on_toggle() {
-      if (list_pop) {
-        $('#list').addClass('hidden');
-        list_pop = false
-      } else {
-        $('#list').removeClass('hidden');
-        list_pop = true
-      }
-    }
-
-    function on_list_select(e) {
-      console.log(e)
-    }
-
     function image_url() { // nst server 에 이미지 변환 요청하는 함수
       let original_image_url = ''
       let nst_image_url = ''
 
-      let file = $('#file-input')[0].files[0];
       let form_data = new FormData();
+      let text = document.querySelector('#main-text');
+      const file = $('#file-input')[0].files[0];
+      text = text
+        .innerHTML
+        .replace(/\s/g, '')
       //file이름과 file을 formdata 로 변환
-      form_data.append('key', '1');
+      form_data.append('key', 'aa');
+      form_data.append('type', text)
       form_data.append('img', file);
       $
         .ajax({ //nst 서버에서 장고닌자로 만들었던 api upload 주소에 formdata와 함께 보낸다
@@ -69,6 +58,7 @@
           },
           success: function (response) { // 성공적으로 response를 받으면 formdata를 url 받은걸로 수정
             form_data.delete('key')
+            form_data.delete('type')
             form_data.delete('img')
             form_data.append('user_id', 1)
             form_data.append('original_image_url', response.original_image_url)
