@@ -1,12 +1,4 @@
-{% load static %}
-<div id="card-container" class="w-80">
-  <img id="user-img" class="bg-cover bg-center w-full h-64" src="{{ url }}" alt="">
-  <div id="icon-box" class="w-full flex justify-between">
-    <div class="w-[3rem]">
-      <img src="{% static 'img/empty_broken_heart.png' %}" onmouseover="this.src='../static/img/broken_heart.png'" onmouseout="this.src='../static/img/empty_broken_heart.png'">
-    </div>
-    <div class="w-[3.6rem]">
-      <img src="{% static 'img/empty_heart.png' %}" onmouseover="this.src='../static/img/heart.png'" onmouseout="this.src='../static/img/empty_heart.png'">
-    </div>
-  </div>
+<div id="card-container" class="">
+  <img id="user-img" class="bg-cover bg-center w-64 h-64" src="{{ url }}" alt="">
+  <div id="icon-box"></div>
 </div>
