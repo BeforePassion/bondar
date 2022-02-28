@@ -40,6 +40,7 @@ class UserModel(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255)
     friend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="friends")
+    point = models.IntegerField(default=0)
 
     objects = UserProfileManager()
 
