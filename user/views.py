@@ -5,3 +5,4 @@ from django.shortcuts import redirect, render
 
 def test(request):
     return render(request, "user/start_base.html")
+
