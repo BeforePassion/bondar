@@ -4,28 +4,55 @@
   profile
 {% endblock page_title %}
 {% block content %}
-  <div class="">
-    <div class="">
-      <div class=""></div>
-      <div class="">
-        <img id="user-img" class="bg-cover bg-center w-64 h-64" src="#" alt="">
-        <input id='file-input' type="file">
+  <div class="md:container md:mx-auto mt-16 h-full flex justify-around items-center">
+    <div id="picture-box" class="h-[40rem] flex flex-col justify-center items-center">
+      <img id="picture-img" class="bg-cover bg-center w-80 h-64 rounded-md" src="https://bondar-bucket.s3.ap-northeast-2.amazonaws.com/picture/Fire.jpeg" alt="">
+      <div id="picture-option" class="w-full mt-5">
+        {% include 'components/picture_list.html' %}
       </div>
-      <div class="w-32">
-        <button onclick="image_url()" class="flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">변경하기</button>
+    </div>
+    <div id="user-image-box">
+      <div id="card-container" class="">
+        <label for="file-input">
+          <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md" src="http://blogfiles.naver.net/20150514_88/aaaa3707_1431531957851FT6VQ_JPEG/%B9%CC%C5%B0%B8%B6%BF%EC%BD%BA%BB%E7%C1%F81969418.jpg" alt="">
+          <input id='file-input' type="file" class="hidden">
+        </label>
       </div>
     </div>
   </div>
-
+  <div class="flex justify-center items-center text-white">
+    <button onclick="image_url()" class="mainColor rounded-md w-32 h-12 flex justify-center items-center">
+      <span id="change-btn-text">변경하기</span>
+      <svg id="loader" xmlns="http://www.w3.org/2000/svg" class="animate-spin h-6 w-6 hidden" fill="white" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+    </button>
+  </div>
   <script>
+    let list_pop = false
+
+    function on_toggle() {
+      if (list_pop) {
+        $('#list').addClass('hidden');
+        list_pop = false
+      } else {
+        $('#list').removeClass('hidden');
+        list_pop = true
+      }
+    }
+
+    function on_list_select(e) {
+      console.log(e)
+    }
+
     function image_url() { // nst server 에 이미지 변환 요청하는 함수
-      let original_image = ''
-      let nst_image = ''
+      let original_image_url = ''
+      let nst_image_url = ''
 
       let file = $('#file-input')[0].files[0];
       let form_data = new FormData();
       //file이름과 file을 formdata 로 변환
-      form_data.append('key', 'aa');
+      form_data.append('key', '1');
       form_data.append('img', file);
       $
         .ajax({ //nst 서버에서 장고닌자로 만들었던 api upload 주소에 formdata와 함께 보낸다
@@ -36,12 +63,21 @@
           contentType: false,
           cache: false,
           processData: false,
+          beforeSend: function () {
+            $('#change-btn-text').addClass('hidden')
+            $('#loader').removeClass('hidden')
+          },
           success: function (response) { // 성공적으로 response를 받으면 formdata를 url 받은걸로 수정
             form_data.delete('key')
             form_data.delete('img')
-            form_data.append('original_file_url', response.original_file_url)
-            form_data.append('nst_file_url', response.file_url)
-            $("#user-img").attr("src", response.file_url); // nst url을 바로 넣어준다
+            form_data.append('user_id', 1)
+            form_data.append('original_image_url', response.original_image_url)
+            form_data.append('nst_image_url', response.nst_image_url)
+            $("#user-img").attr("src", response.nst_image_url); // nst url을 바로 넣어준다
+          },
+          complete: function () {
+            $('#change-btn-text').removeClass('hidden')
+            $('#loader').addClass('hidden')
           }
         })
         .then(function (response) { //then은 위에 ajax가 끝나면 바로 시작하는 함수
