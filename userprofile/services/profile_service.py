@@ -23,7 +23,7 @@ def edit_image(user_id: int, original_image_url: str, nst_image_url: str) -> Use
     userImage = UserProfile.objects.filter(user_id=user_id).get()
     userImage.original_image_url = original_image_url
     userImage.nst_image_url = nst_image_url
-    userImage.save(update_fields=['original_image_url', 'nst_image_url'])
+    userImage.save(update_fields=["original_image_url", "nst_image_url"])
     return userImage
 
 

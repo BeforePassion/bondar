@@ -28,6 +28,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", api.urls),
     path("user-edit/", include("userprofile.urls")),
+    path("point/", include("point.urls")),
     path("api/point/", api_point.urls),  # 포인트 url
     path("chat/", include("chat.urls")),
     path("welcome/", include("user.urls")),
