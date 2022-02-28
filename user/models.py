@@ -1,13 +1,19 @@
 from datetime import datetime
 
+
 from django.conf import settings
+
+
 from django.contrib.auth.models import (
     AbstractBaseUser,
     AbstractUser,
     BaseUserManager,
     PermissionsMixin,
 )
+
 from django.core.validators import RegexValidator  # 전화번호 유효성검사
+
+
 from django.db import models
 
 
@@ -15,7 +21,11 @@ from django.db import models
 class UserProfileManager(BaseUserManager):
     def create_user(self, email, password=None, username=None):
         if not email:
+
             raise ValueError("제대로 된 이메일 형식이 아닙니다 ;)")
+
+            raise ValueError("Please provide an email address")
+
 
         email = self.normalize_email(email)
         user = self.model(email=email)
