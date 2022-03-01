@@ -40,14 +40,14 @@ def sign_up_view(request):
                     email=email, password=password)
                 user.username = username
                 user.save()
-                return redirect('/welcome/signin')
+                return redirect('/welcome/sign-in')
 
 
 def sign_in_view(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
         if user:
-            return redirect('/')
+            return redirect('/main')
         else:
             return render(request, 'user/signin.html')
     elif request.method == 'POST':
