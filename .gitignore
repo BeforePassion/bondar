@@ -250,8 +250,8 @@ package.json
 package-lock.json
 /assets/
 
-# # migration
-# /user/migrations/*
-# /userprofile/migrations/*
-# /point/migrations/*
-# /chat/migrations/*
+# migration
+/user/migrations/*
+/userprofile/migrations/*
+/point/migrations/*
+/chat/migrations/*
