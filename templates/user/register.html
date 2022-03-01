@@ -1,12 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends '../base.html' %}
+{% block header_btn %}
+
+  <ul style="list-style: none;">
+    <li class="">
+      <a class="btn btn-red font-color-white" href="/sign-in">
+        로그인
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block background %}
+  <div>
+    <div id='background'>
+      <div class='mask'></div>
+    </div>
+  </div>
+{% endblock %}
+{% block content %}
+    <div style="height: 100px"></div>
+  <div class="wrapper">
+    <div class="login-content">
+      <div class="form-content">
+        <form method="post" action='/welcome/sign-up/'>{% csrf_token %}
+            <h1 class="font-color-white login-title">계정 만들기</h1>
+            <div>
+              <label for="floatingInput">닉네임</label>
+              <input type="text" class="form-control auth-input" id="username" name="username" placeholder="닉네임"/>
+            </div>
+            <div>
+              <label for="floatingInput">생일</label>
+              <input type="text" class="form-control auth-input" id="birth" name="birth" placeholder="생일"/>
+            </div>
+            <div>
+              <label for="floatingInput">성별</label>
+            </div>
+            <div>
+              <label for="floatingInput">상대의 성별</label>
+              <input type="text" class="form-control auth-input" id="target-sex" name="target-sex" placeholder="상대의 성별"/>
+            </div>
+            <div>
+              <label for="floatingInput">프로필 사진</label>
+              <input type="text" class="form-control auth-input" id="birth" name="birth" placeholder="생일"/>
+            </div>
+            <div class="btn-wrapper">
+              <button class="btn btn-red font-color-white" style="padding:13px">시작하기</button>
+            </div>
+          <script>
+            const open = () => {
+                document.querySelector(".modal").classList.remove("hidden");
+            }
+
+            const close = () => {
+                document.querySelector(".modal").classList.add("hidden");
+            }
+
+            document.querySelector(".openBtn").addEventListener("click", open);
+            document.querySelector(".closeBtn").addEventListener("click", close);
+            document.querySelector(".bg").addEventListener("click", close);
+
+            </script>
+          <div>
+              {% comment %} 프로필사진
+              onclick -> modal popup 
+              modal -> {% include {% endcomment %}
+            
+          </div>
+
+          <div class="btn-wrapper">
+            <button class="btn btn-red font-color-white" style="padding:13px">시작하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+<!-- modal 창 띄우기 -->
