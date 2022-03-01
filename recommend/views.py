@@ -4,6 +4,7 @@ from django.shortcuts import render
 from user.models import UserModel
 
 
-def user_view(request):
+def ilike(request):
     if request.method == 'GET':
-        user_list = UserModel.objects.all().exclude()
+        user_list = UserModel.objects.all().exclude(id=request.user.id)
+        return render(request, 'recommend/ilike.html')
