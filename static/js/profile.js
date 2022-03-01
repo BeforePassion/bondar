@@ -14,7 +14,7 @@ function readURL(input) {
   }
 }
 
-function on_toggle() {
+function on_toggle_list() {
   //list 목록
   if (list_pop) {
     $("#list").addClass("hidden");
@@ -46,5 +46,5 @@ function on_list_select(e) {
     picture.src =
       "https://bondar-bucket.s3.ap-northeast-2.amazonaws.com/picture/leejungsub.jpeg";
   }
-  on_toggle();
+  on_toggle_list();
 }

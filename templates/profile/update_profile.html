@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  profile
+{% endblock page_title %}
+{% block content %}
+  <div class="md:container md:mx-auto mt-16 h-full flex justify-around items-center">
+    <div id="input-box" class="h-[40rem]">
+      <div>
+        <div>유저네임</div>
+        <input type="text">
+      </div>
+      <div>
+        <div>패스워드</div>
+        <input type="text">
+      </div>
+      <div>
+        <div>이메일</div>
+        <input type="text">
+      </div>
+      <div>
+        <div>선호 성별</div>
+        <input type="text">
+      </div>
+    </div>
+    <div id="user-image-box">
+      <div id="card-container" class="">
+        <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md" src="" alt="">
+      </div>
+    </div>
+
+  </div>
+  <div class="flex justify-center items-center text-white">
+    <button onclick="" class="mainColor rounded-md w-32 h-12 flex justify-center items-center">
+      <span id="change-btn-text">변경하기</span>
+      <svg id="loader" xmlns="http://www.w3.org/2000/svg" class="animate-spin h-6 w-6 hidden" fill="white" viewbox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+    </button>
+  </div>
+  <script>
+    $(document).ready(function () {
+      get_image()
+    });
+
+    function get_image() {
+      const user_id = "{{ user.id }}";
+      $.ajax({
+        type: "GET",
+        url: `http://localhost:8000/api/v1/images/${user_id}`,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (response) {
+          $("#user-img").attr("src", response.nst_image_url);
+        }
+      });
+    }
+  </script>
+{% endblock %}

@@ -63,7 +63,7 @@ def sign_in_view(request):
                                password=password, username=username)
         if me is not None:  
             auth.login(request, me)
-            return redirect('/')
+            return redirect('/main')
         else:
             return render(request, 'user/signin.html', {'error': '회원정보가 일치하지 않습니다 ;( '})
 

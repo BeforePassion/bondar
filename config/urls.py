@@ -33,6 +33,7 @@ urlpatterns = [
     path("api/point/", api_point.urls),  # 포인트 url
     path("chat/", include("chat.urls")),
     path("welcome/", include("user.urls")),
+    path("", include("user.urls")),
     path("", include("like.urls")),
     path("", include("recommend.urls")),
 ]
