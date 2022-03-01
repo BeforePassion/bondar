@@ -24,10 +24,6 @@
         <form method="post" action='/welcome/sign-up/'>{% csrf_token %}
           <h1 class="font-color-white login-title">회원가입</h1>
           <div class="form-floating mb-3 input">
-            <input type="text" class="form-control auth-input" id="username" name="username" placeholder="유저네임"/>
-            <label for="floatingInput">유저네임</label>
-          </div>
-          <div class="form-floating mb-3 input">
             <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
             <label for="floatingInput">이메일</label>
           </div>
@@ -48,18 +44,3 @@
     </div>
   </div>
 {% endblock %}
-
-{% comment %} {% extends "start_base.html" %}
-{% load static %}
-{% block page_title %}
-    Welcome
-{% endblock %}
-    {% block others %}
-    
-    {% endblock %}
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html> {% endcomment %}

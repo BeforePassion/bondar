@@ -12,7 +12,7 @@
   <div class="wrapper">
     <div class="login-content">
       <div class="form-content">
-        <form method="post" action='/welcome/sign-in/'>{% csrf_token %}
+        <form method="post" action='/welcome/sign-up/'>{% csrf_token %}
           <h1 class="font-color-white login-title">로그인</h1>
           <div class="form-floating mb-3 input">
             <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
@@ -34,7 +34,7 @@
           <div>Facebook으로 로그인</div>
         </div>
         <div style="display:flex;">
-          <div style="margin:0 5px 15px 0;">Netflix 회원이 아닌가요?</div>
+          <div style="margin:0 5px 15px 0;">bondar 회원이 아니신가요?</div>
           <a href="/sign-up" class="font-color-white">지금 가입하세요.</a>
         </div>
         <div>

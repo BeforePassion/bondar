@@ -9,12 +9,12 @@
     <title>bondar</title>
 </head>
 <body>
-    {% block content %}{% endblock %}
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <img src="/static/img/bondar.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
             bondar
         </div>
-      </nav>
+    </nav>
+    {% block content %}{% endblock %}
 </body>
 </html>

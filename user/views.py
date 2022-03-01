@@ -1,5 +1,7 @@
 
 from django.shortcuts import render, redirect
+
+from point.models import PointHistory
 from .models import UserModel
 from django.contrib.auth import get_user_model  # 사용자가 데이터베이스 안에 있는지 검사하는 함수
 from django.contrib import auth
@@ -21,9 +23,8 @@ def sign_up_view(request):
         email = request.POST.get('email', None)
         password = request.POST.get('password', None)
         password2 = request.POST.get('password2', None)
-        username = request.POST.get('username', None)
 
-        if email == '' or password == '' or username == '':
+        if email == '' or password == '':
             return render(request, 'user/signup.html', {'error': '빈칸을 채워주세요 :)'}, )
 
         elif password != password2:
@@ -38,8 +39,9 @@ def sign_up_view(request):
             else:
                 user = UserModel.objects.create_user(
                     email=email, password=password)
-                user.username = username
                 user.save()
+                point = PointHistory.objects.create(user_id = user.id)
+                point.save()
                 return redirect('/welcome/sign-in')
 
 
@@ -71,7 +73,4 @@ def logout(request):
     auth.logout(request)  # 인증되어있는 정보를 없애기
     return redirect("/")
 
-
-def test(request):
-    return render(request, "user/start_base.html")
 

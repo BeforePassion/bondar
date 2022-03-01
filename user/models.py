@@ -15,16 +15,14 @@ from django.core.validators import RegexValidator  # 전화번호 유효성검�
 
 
 from django.db import models
+from django.contrib import admin
 
 
 # Create your models here.
 class UserProfileManager(BaseUserManager):
     def create_user(self, email, password=None, username=None):
         if not email:
-
             raise ValueError("제대로 된 이메일 형식이 아닙니다 ;)")
-
-            raise ValueError("Please provide an email address")
 
 
         email = self.normalize_email(email)
@@ -36,7 +34,7 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, username):
         """Create a new superuser profile"""
         user = self.create_user(email, password)
         user.is_superuser = True
@@ -48,10 +46,15 @@ class UserProfileManager(BaseUserManager):
 
 
 class UserModel(AbstractUser):
+    
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255)
     friend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="friends")
-    # point = models.IntegerField(default=0)
+    point = models.IntegerField(default=0)
+    birth = models.CharField(default=0, max_length=8)
+    gender = models.CharField(default=0, max_length=80)
+    target_gender = models.CharField(default=0, max_length=80)
+   
     # phoneNumberRegex = RegexValidator(regex=r"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$")  # 정규표현식을 사용한 전화번호 표기방식
     # phone = models.CharField(validators=[phoneNumberRegex], max_length=11, unique=True)
 

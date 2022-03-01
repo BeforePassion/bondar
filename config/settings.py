@@ -157,3 +157,6 @@ AUTH_USER_MODEL = "user.UserModel"
 # DEFAULT_FROM_MAIL = '<네이버 ID>'
 
 
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
+)
