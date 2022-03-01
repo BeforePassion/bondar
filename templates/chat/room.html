@@ -5,7 +5,11 @@
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <textarea id="chat-log" cols="100" rows="20">
+    {% for ms in message %}
+    {{ ms.user_id }} : {{ ms.message }}
+    {% endfor %}
+    </textarea><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
     <!--room_name 을 핸들링 하는 json script-->
@@ -25,7 +29,7 @@
         // chat-log id를 통해서 기존 message 에 추가해서 message 를 onmessage 해줌
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            document.querySelector('#chat-log').value += (data.user + ' : ' + data.message + '\n');
         };
 
         // 에러났을 때는 onclose
@@ -46,8 +50,10 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
+            const user1 = {{ user }};
             chatSocket.send(JSON.stringify({
-                'message': message
+                'message': message,
+                'user' : user1,
             }));
             messageInputDom.value = '';
         };

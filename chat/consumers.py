@@ -34,11 +34,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
+        user = text_data_json["user"]
 
         # Send message to room group / 그룹에 이벤트를 보낸다.
         # An event has a special 'type' key corresponding to the name of the method
         # that should be invoked on consumers that receive the event.
-        await self.channel_layer.group_send(self.room_group_name, {"type": "chat_message", "message": message})
+        await self.channel_layer.group_send(self.room_group_name, {"type": "chat_message", "message": message, "user": user})
 
     # Receive message from room group
     async def chat_message(self, event):
