@@ -18,7 +18,7 @@ from django.urls import include, path
 from ninja import NinjaAPI
 
 from point.api import api_point  # 포인트 url
-from userprofile.apis.v1.file_router import router as file_router
+from userprofile.apis.v1.profile_router import router as file_router
 
 from core import views
 
