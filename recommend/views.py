@@ -67,12 +67,10 @@ def both_like_user_view(request):
                 if friend_like_user_id == request.user.id:
                     like_me_friends_id_list.append(friend_id)
 
-        A = id_list
-        B = like_me_friends_id_list
-        C = set(A) & set(B)
-        D = list(C)
+        set_list = set(id_list) & set(like_me_friends_id_list)
+        both_like_id_list = list(set_list)
         both_like_user_list = []
-        for i in D:
-            both_like_user = UserModel.objects.get(id=i)
+        for id in both_like_id_list:
+            both_like_user = UserModel.objects.get(id=id)
             both_like_user_list.append(both_like_user)
     return render(request, 'recommend/both_like.html', {'both_like_user_list': both_like_user_list})
