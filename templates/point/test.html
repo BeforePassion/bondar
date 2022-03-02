@@ -8,6 +8,7 @@
         $(document).ready(function () {
             show_point();
             show_charge_history();
+            show_usage_history();
         });
 
         function show_point() {
@@ -28,11 +29,8 @@
                     for (let i = 0; i < response.length; i++) {
 
                         let point = response[i]['point']
-                        console.log(point)
                         let date = response[i]['created_at']
-                        console.log(date)
                         let history = response[i]['history']
-                        console.log(history)
 
                         let temp_html = `<tr>
                             <td>${date}</td>
@@ -42,8 +40,28 @@
 
                         $('#d2').append(temp_html);
                     }
+                }
+            })
+        };
+        function show_usage_history() {
+            $.ajax({
+                type: "GET",
+                url: "/api/point/usage_history",
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
 
+                        let point = response[i]['point']
+                        let date = response[i]['created_at']
+                        let history = response[i]['history']
 
+                        let temp_html = `<tr>
+                            <td>${date}</td>
+                            <td>${point}</td>
+                            <td>${history}</td>
+                            </tr>`
+
+                        $('#d3').append(temp_html);
+                    }
                 }
             })
         };
@@ -90,7 +108,14 @@
                     <td>내용</td>
                 </tr>
             </div>
-            <div class="box" id="d3" style="display: none">사용내역 텍스트</div>
+            <div class="box" id="d3" style="display: none">
+                <p>사용내역 텍스트</p>
+                <tr>
+                    <td>date</td>
+                    <td>point</td>
+                    <td>내용</td>
+                </tr>
+            </div>
             <div class="box" id="d4" style="display: none">포인트안내 텍스트</div>
 
         </div>
