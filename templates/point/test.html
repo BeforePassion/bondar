@@ -3,8 +3,69 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/point.css' %}">
-    <script type="text/javascript" src="{% static 'js/point.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/point.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            show_point();
+            show_charge_history();
+            show_usage_history();
+        });
 
+        function show_point() {
+            $.ajax({
+                type: "GET",
+                url: "/api/point/point",
+                success: function (response) {
+                    $('#my_point').append(response);
+                }
+            })
+        };
+
+        function show_charge_history() {
+            $.ajax({
+                type: "GET",
+                url: "/api/point/charge_history",
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+
+                        let point = response[i]['point']
+                        let date = response[i]['created_at']
+                        let history = response[i]['history']
+
+                        let temp_html = `<tr>
+                            <td>${date}</td>
+                            <td>${point}</td>
+                            <td>${history}</td>
+                            </tr>`
+
+                        $('#d2').append(temp_html);
+                    }
+                }
+            })
+        };
+        function show_usage_history() {
+            $.ajax({
+                type: "GET",
+                url: "/api/point/usage_history",
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+
+                        let point = response[i]['point']
+                        let date = response[i]['created_at']
+                        let history = response[i]['history']
+
+                        let temp_html = `<tr>
+                            <td>${date}</td>
+                            <td>${point}</td>
+                            <td>${history}</td>
+                            </tr>`
+
+                        $('#d3').append(temp_html);
+                    }
+                }
+            })
+        };
+    </script>
 
     <div class="main-container">
         <div class="menu-container">
@@ -16,9 +77,45 @@
         </div>
 
         <div class="menu">
-            <div class="box" id="d1">충전하기 텍스트</div>
-            <div class="box" id="d2" style="display: none">충전내역 텍스트</div>
-            <div class="box" id="d3" style="display: none">사용내역 텍스트</div>
+            <div class="box" id="d1">
+                <p id="my_point">현재 내 포인트: </p>
+                <form action="/api/point/charge" method="put" id="point">
+                    <div>
+                        <input type="radio" id="100" name="point" value="100">
+                        <label for="100">100 point</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="500" name="point" value="500">
+                        <label for="500">500 point</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="1000" name="point" value="1000">
+                        <label for="1000">1000 point</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="5000" name="point" value="5000">
+                        <label for="5000">5000 point</label>
+                    </div>
+                </form>
+                <button type="submit" form="point">충전하기</button>
+            </div>
+            <div class="box" id="d2" style="display: none">
+                충전내역 텍스트
+                <p>충전 내역</p>
+                <tr>
+                    <td>date</td>
+                    <td>point</td>
+                    <td>내용</td>
+                </tr>
+            </div>
+            <div class="box" id="d3" style="display: none">
+                <p>사용내역 텍스트</p>
+                <tr>
+                    <td>date</td>
+                    <td>point</td>
+                    <td>내용</td>
+                </tr>
+            </div>
             <div class="box" id="d4" style="display: none">포인트안내 텍스트</div>
 
         </div>

@@ -6,7 +6,7 @@
 {% block content %}
   <div class="md:container md:mx-auto mt-16 h-full flex justify-around items-center">
     <div id="picture-box" class="h-[40rem] flex flex-col justify-center items-center">
-      <img id="picture-img" class="bg-cover bg-center w-80 h-64 rounded-md" src="https://bondar-bucket.s3.ap-northeast-2.amazonaws.com/picture/Fire.jpeg" alt="">
+      <img id="picture-img" class="bg-cover bg-center w-96 h-64 rounded-md" src="https://bondar-bucket.s3.ap-northeast-2.amazonaws.com/picture/Fire.jpeg" alt="">
       <div id="picture-option" class="w-full mt-5">
         {% include 'components/picture_list.html' %}
       </div>
@@ -14,7 +14,7 @@
     <div id="user-image-box">
       <div id="card-container" class="">
         <label for="file-input">
-          <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md" src="http://blogfiles.naver.net/20150514_88/aaaa3707_1431531957851FT6VQ_JPEG/%B9%CC%C5%B0%B8%B6%BF%EC%BD%BA%BB%E7%C1%F81969418.jpg" alt="">
+          <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md" src="#" alt="">
           <input id='file-input' type="file" class="hidden">
         </label>
       </div>
@@ -29,6 +29,24 @@
     </button>
   </div>
   <script>
+    $(document).ready(function () {
+      get_image()
+    });
+
+    function get_image() {
+      const user_id = "{{ user.id }}";
+      $.ajax({
+        type: "GET",
+        url: `http://localhost:8000/api/v1/images/${user_id}`,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (response) {
+          $("#user-img").attr("src", response.nst_image_url);
+        }
+      });
+    }
+
     function image_url() { // nst server 에 이미지 변환 요청하는 함수
       let original_image_url = ''
       let nst_image_url = ''
@@ -73,7 +91,7 @@
         .then(function (response) { //then은 위에 ajax가 끝나면 바로 시작하는 함수
           $.ajax({ // 바로 ajax를 실행해서 여기 서버에서 만든 file url 저장하는 api에 데이터와 함께 보낸다
             type: 'POST',
-            url: "{% url 'api-1.0.0:file' %}",
+            url: "{% url 'api-1.0.0:update_file' %}",
             data: form_data,
             contentType: false,
             cache: false,

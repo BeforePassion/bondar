@@ -3,24 +3,38 @@
     <div id="user-container">
       <ul class="p-1">
         <div>변경</div>
-        <li class="navBtn">유저 정보 변경</li>
-        <li class="navBtn">프로필 사진 변경</li>
+        <a href="/user-edit">
+          <li class="navBtn">유저 정보 변경</li>
+        </a>
+        <a href="/user-edit/image">
+          <li class="navBtn">프로필 사진 변경</li>
+        </a>
         <div>좋아요</div>
-        <li class="navBtn">나를 좋아요 한 유저</li>
-        <li class="navBtn">내가 좋아요 한 유저</li>
+        <a href="/like-me">
+          <li class="navBtn">나를 좋아요 한 유저</li>
+        </a>
+        <a href="/i-like">
+          <li class="navBtn">내가 좋아요 한 유저</li>
+        </a>
         <div>포인트</div>
         <li class="navBtn">포인트 조회 및 충전</li>
       </ul>
     </div>
     <div id="bondar-container">
       <ul class="p-1">
-        <li class="navBtn">홈으로</li>
-        <li class="navBtn">로그아웃</li>
-        <li class="navBtn">계정 삭제하기</li>
+        <a href="/main">
+          <li class="navBtn">홈으로</li>
+        </a>
+        <a href="/logout">
+          <li class="navBtn">로그아웃</li>
+        </a>
+        <a href="/delete">
+          <li class="navBtn">계정 삭제하기</li>
+        </a>
       </ul>
       <div class="flex justify-between p-1">
         <div>We are Bondar</div>
-        <div>V 1.0.0</div>
+        <div class="text-zinc-500">V 1.0.0</div>
         <div>도움말</div>
       </div>
     </div>

@@ -1,35 +1,38 @@
+from typing import List
+from django.http import HttpResponse, JsonResponse
 from ninja import NinjaAPI
-
+from user.models import UserModel
 from point.models import PointHistory
 from point.schema import NotEnoughPoint, PointSchema
+from django.shortcuts import redirect
 
 api_point = NinjaAPI(urls_namespace="point")
 
 
-@api_point.get("/mypoint", response={200: PointSchema, 404: NotEnoughPoint})
-def mypoint(request, user_id: int):
-    try:
-        # 작성중...
-        point = PointHistory.objects.get()[:1]
-        return 200, point
-    except PointHistory.DoesNotExist as e:
-        return 404, {"message": "기록이 존재하지 않습니다."}
+@api_point.get("/point", response=List[PointSchema])
+def my_point(request):
+    point = request.user.point
+    return HttpResponse(point)
 
 
-@api_point.post("/charge")
-def charge(request, point, uid):
-    pass
+@api_point.get("/charge", response=List[PointSchema])
+def charge(request, point):
+    p = request.user.point
+    UserModel.objects.filter(id=request.user.id).update(point=p+int(point))
+    PointHistory.objects.create(user_id=request.user.id, point=p+int(point), history='charge', usage=True)
+    return redirect('/point')
 
 
-@api_point.get("/chargehistory")
-def chargehistory(request, uid):
-    data = PointHistory.objects.filter(user_id=uid, usage=True)
+@api_point.get("/charge_history")
+def charge_history(request):
+    data = PointHistory.objects.filter(user_id=request.user.id, usage=True)
+    data = list(data.values())
+    return JsonResponse(data, safe=False)
 
-    return data
 
-
-@api_point.get("/usagehistory")
-def usagehistory(request, uid):
-    data = PointHistory.objects.filter(user_id=uid, usage=False)
-
-    return data
+@api_point.get("/usage_history")
+def usage_history(request):
+    data = PointHistory.objects.filter(user_id=request.user.id, usage=False)
+    print(data)
+    data = list(data.values())
+    return JsonResponse(data, safe=False)
