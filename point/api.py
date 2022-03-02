@@ -1,14 +1,12 @@
 from typing import List
 from django.http import HttpResponse
 from ninja import NinjaAPI
-from django.contrib.auth.decorators import login_required
 from point.models import PointHistory
 from point.schema import NotEnoughPoint, PointSchema
 
 api_point = NinjaAPI(urls_namespace="point")
 
 
-@login_required(login_url='/welcome/sign-in/')
 @api_point.get("/point", response=List[PointSchema])
 def mypoint(request):
     point = request.user.point
@@ -16,7 +14,7 @@ def mypoint(request):
 
 
 @api_point.post("/charge")
-def charge(request, point, uid):
+def charge(request):
     pass
 
 
