@@ -10,4 +10,5 @@ urlpatterns = [
     path('register/', views.register_user, name='register'),
     path('logout/', views.logout, name='logout'),
     path('activate/<uidb64>/<token>', views.VerificationView.as_view(), name='activate'),
+    path('', views.startpage, name='startpage'),
 ]

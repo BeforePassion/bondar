@@ -1,19 +1,18 @@
-{% extends '../base.html' %}
-{% block background %}
-  <div>
-    <div id='background'>
-      <div class='mask'></div>
-    </div>
-  </div>
-{% endblock %}
+{% extends '../user/start_base.html' %}
+{% block css %}
+<link rel="stylesheet" href='../static/css/signup.css'>
+{% endblock css%}
 {% block content %}
-        <div style="height: 100px"></div>
-
   <div class="wrapper">
     <div class="login-content">
       <div class="form-content">
-        <form method="post" action='/welcome/sign-in/'>{% csrf_token %}
-          <h1 class="font-color-white login-title">로그인</h1>
+        <h3>bondar에 오신 것을 환영합니다!</h3>
+        <h4 style="font-size:20px">
+          로그인하면 bondar에 이용약관에<br>
+          이용약관에 동의하는 것으로 간주됩니다 :)
+        </h4>
+        <form method="post" action='/welcome/sign-in/'>
+          {% csrf_token %}
           <div class="form-floating mb-3 input">
             <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
             <label for="floatingInput">이메일</label>
