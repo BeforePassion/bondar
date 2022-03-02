@@ -38,11 +38,12 @@
                             <td>${history}</td>
                             </tr>`
 
-                        $('#d2').append(temp_html);
+                        $('#d2-2').append(temp_html);
                     }
                 }
             })
         };
+
         function show_usage_history() {
             $.ajax({
                 type: "GET",
@@ -100,13 +101,14 @@
                 <button type="submit" form="point">충전하기</button>
             </div>
             <div class="box" id="d2" style="display: none">
-                충전내역 텍스트
                 <p>충전 내역</p>
-                <tr>
-                    <td>date</td>
-                    <td>point</td>
-                    <td>내용</td>
-                </tr>
+                <table id="d2-2" style="margin: auto">
+                    <tr>
+                        <td>date</td>
+                        <td>point</td>
+                        <td>내용</td>
+                    </tr>
+                </table>
             </div>
             <div class="box" id="d3" style="display: none">
                 <p>사용내역 텍스트</p>
