@@ -24,7 +24,7 @@ def chat_view(request: HttpRequest) -> HttpResponse:
 
             username_list = []
             for chat_user in chat_user_list:
-                username = chat_user.user_id.username
+                username = chat_user.user_id.email
                 username_list.append(username)
 
             # chat_info 변수에 딕셔너리 형태로 저장
@@ -36,7 +36,7 @@ def chat_view(request: HttpRequest) -> HttpResponse:
         return render(request, "chat/chat.html", {'chat_info': chat_info})
     # 사용자가 없으면 로그인화면
     else:
-        return redirect(("/wellcom/sign-in"))
+        return redirect(("/welcome/sign-in"))
 
 
 # room 함수를 호출하면 room.html 을 렌더해주는 함수 / dict 형태로 room_name value 를 전송

@@ -1,23 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20">
-    {% for ms in message %}
-    {{ ms.user_id }} : {{ ms.message }}
-    {% endfor %}
-    </textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-6">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1" class="h4 pt-5">Chatroom</label>
+                        <textarea class="form-control" id="chat-log" cols="100" rows="20" readonly>
+{% for ms in message %}{{ ms.user_id }}: {{ ms.message }}
+{% endfor %}
+                        </textarea><br>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="chat-message-input" type="text" size="100"><br>
+                    </div>
+                    <input class="btn btn-secondary btn-lg btn-block" id="chat-message-submit" type="button" value="Send">
+                </form>
+            </div>
+        </div>
+    </div>
     <!--room_name 을 핸들링 하는 json script-->
     {{ room_name|json_script:"room-name" }}
+    {{ user.email|json_script:"user_email" }}
+    {{ user.id|json_script:"user_id" }}
     <script>
         <!--roomName 변수에 room_name 할당-->
         // JSON.parse() 메소드 : json 문자열의 구문을 분석하고 결과로 javascript 값이나 객체 생성
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const user_email = JSON.parse(document.getElementById('user_email').textContent);
+        const user_id = JSON.parse(document.getElementById('user_id').textContent);
+
         // chatSocket 변수에 생선된 webSocket 할당 / ws://ws/chat/roomName
         const chatSocket = new WebSocket(
             'ws://'
@@ -27,19 +51,19 @@
             + '/'
         );
         // chat-log id를 통해서 기존 message 에 추가해서 message 를 onmessage 해줌
-        chatSocket.onmessage = function(e) {
+        chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.user + ' : ' + data.message + '\n');
+            document.querySelector('#chat-log').value += (data.user + ': ' + data.message + '\n');
         };
 
         // 에러났을 때는 onclose
-        chatSocket.onclose = function(e) {
+        chatSocket.onclose = function (e) {
             console.error('Chat socket closed unexpectedly');
         };
 
         // 엔터를 눌러도 click 이벤트가 발생하게 처리
         document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
+        document.querySelector('#chat-message-input').onkeyup = function (e) {
             if (e.keyCode === 13) {  // enter, return
                 document.querySelector('#chat-message-submit').click();
             }
@@ -47,13 +71,16 @@
 
         // onclick 이벤트가 발생하면 input value를 message에 저장해서 json형태로 chatSocket으로 전송
         // chatSocket 전송이 완료되면 input box value 를 공백으로 초기화
-        document.querySelector('#chat-message-submit').onclick = function(e) {
+        document.querySelector('#chat-message-submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            const user1 = {{ user }};
+            {#const user = document.querySelector('#user-email');#}
+            {#const user_email = user.textContent;#}
+            {#const user_id = document.querySelector('#user-id').textContent;#}
             chatSocket.send(JSON.stringify({
                 'message': message,
-                'user' : user1,
+                'user': user_email,
+                'user_id': user_id
             }));
             messageInputDom.value = '';
         };

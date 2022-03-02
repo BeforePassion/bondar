@@ -7,10 +7,16 @@ and then calls various functions on the consumer to handle events from the conne
 # websocket 요청을 처리하는 함수는 consumers.py 에입력
 import json
 
+from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
+from chat.models import Room
+from chat.services.message_service import creat_an_message
 
 # 비동기식 방법으로 진행
+from user.models import UserModel
+
+
 class ChatConsumer(AsyncWebsocketConsumer):
     # websocket 연결
     async def connect(self):
@@ -35,15 +41,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
         user = text_data_json["user"]
-
+        user_id = int(text_data_json["user_id"])
+        room_id = int(self.room_name)
         # Send message to room group / 그룹에 이벤트를 보낸다.
         # An event has a special 'type' key corresponding to the name of the method
         # that should be invoked on consumers that receive the event.
-        await self.channel_layer.group_send(self.room_group_name, {"type": "chat_message", "message": message, "user": user})
+        await self.channel_layer.group_send(self.room_group_name, {"type": "chat_message", "message": message, 'user': user})
 
+        # user_model = sync_to_async(UserModel.objects.get, thread_sensitive=True)(id=user_id)
+        # room_model = sync_to_async(Room.objects.get, thread_sensitive=True)(id=room_id)
+        # creat_an_message(user_model, room_model, message)
     # Receive message from room group
     async def chat_message(self, event):
         message = event["message"]
+        user = event["user"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps({"message": message, 'user': user}))
