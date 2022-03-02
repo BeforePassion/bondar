@@ -18,6 +18,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from .utils import token_generator
 
 
+def startpage(request):
+    if request.method == 'GET':
+        return render(request, 'user/intro.html')
 
 def sign_up_view(request):
     if request.method == 'GET':

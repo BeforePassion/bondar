@@ -1,6 +1,5 @@
 {% load static %}
 
-{% if ul in like_me_user_list %}
     <div id="card-container" class="w-80" style="">
         <p id="ul-id" class="w-80">{{ ul.id }}</p>
         <p id="ul-email" class="w-80">{{ email }}</p>
@@ -17,8 +16,6 @@
                 <img src="{% static 'img/empty_heart.png' %}" onmouseover="this.src='../static/img/heart.png'"
                      onmouseout="this.src='../static/img/empty_heart.png'">
                 </a>
-                <p>여기는 채팅 연결?</p>
             </div>
         </div>
     </div>
-{% endif %}
