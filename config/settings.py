@@ -95,9 +95,13 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sys',
+        'USER': 'admin',
+        'PASSWORD': 'admin123',
+        'HOST': 'database-2.cwuszix6ex5r.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 

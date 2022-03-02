@@ -1,0 +1,9 @@
+.user_container {
+}
+.user_card_wrapper {
+    background-color: #ffa5ab;
+    max-width: 70%;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
