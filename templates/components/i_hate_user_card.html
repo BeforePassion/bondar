@@ -1,0 +1,24 @@
+{% load static %}
+
+<div id="card-container" class="w-80" style="">
+    <p id="ul-id" class="w-80">{{ ul.id }}</p>
+    <p id="ul-email" class="w-80">{{ email }}</p>
+    <img id="user-img" class="bg-cover bg-center w-full h-64"
+         src="https://ww.namu.la/s/4c30cf3fed5c1a9052a52b527b9c3a4ae98534ee72dfbfd8d728cec568db7a657709d8d87507681663b495ed4355acd9049fd552bf810bda0c5252715ba7c634afbf2c6a859c5b58ab29f98ea6bbb7fa06bfae2f6b436da1788b894c5159627a51f8ade4471387cd3257ab146113095e"
+         alt="">
+    <div id="icon-box" class="w-full flex justify-between">
+        <div class="w-[3rem]" style="margin-top: 8px">
+            <a href="cancel/{{ ul.id }}">
+                <img src="{% static 'img/empty_broken_heart.png' %}"
+                     onmouseover="this.src='../static/img/broken_heart.png'"
+                     onmouseout="this.src='../static/img/empty_broken_heart.png'">
+            </a>
+        </div>
+        <div class="w-[3.6rem]">
+            <a href="like/{{ ul.id }}">
+                <img src="{% static 'img/empty_heart.png' %}" onmouseover="this.src='../static/img/heart.png'"
+                     onmouseout="this.src='../static/img/empty_heart.png'">
+            </a>
+        </div>
+    </div>
+</div>

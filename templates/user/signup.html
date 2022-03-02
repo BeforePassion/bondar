@@ -1,45 +1,37 @@
-{% extends '../base.html' %}
-{% block header_btn %}
-
-  <ul style="list-style: none;">
-    <li class="">
-      <a class="btn btn-red font-color-white" href="/sign-in">
-        로그인
-      </a>
-    </li>
-  </ul>
-{% endblock %}
-{% block background %}
-  <div>
-    <div id='background'>
-      <div class='mask'></div>
-    </div>
-  </div>
-{% endblock %}
+{% extends '../user/start_base.html' %}
+{% block css %}
+<link rel="stylesheet" href='../static/css/signup.css'>
+<title>{% block page_title %}Sign-up{% endblock page_title %} | Bondar</title>
+{% endblock css%}
 {% block content %}
-    <div style="height: 100px"></div>
-  <div class="wrapper">
-    <div class="login-content">
-      <div class="form-content">
-        <form method="post" action='/welcome/sign-up/'>{% csrf_token %}
-          <h1 class="font-color-white login-title">회원가입</h1>
-          <div class="form-floating mb-3 input">
-            <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
-            <label for="floatingInput">이메일</label>
+  <div class="container">
+    <div class="wrapper">
+      <div class="login-content">
+        <div class="form-content">
+          <img src="/static/img/logo.png" alt="" width="100" height="80" class="d-inline-block align-text-top">
+          <h3>계정 만들기</h3>
+          <div class="form-data">
+            <form method="post" action='/sign-up/'>
+              {% csrf_token %}
+              <div class="form-floating mb-3 input">
+                <label for="floatingInput">이메일</label>
+                <input type="email" class="form-control auth-input" id="email" name="email" placeholder="이메일"/>
+              </div>
+              <div class="form-floating mb-3 input">
+                <label for="floatingInput">비밀번호</label>
+                <input type="password" class="form-control auth-input" id="password" name="password" placeholder="비밀번호"/>
+              </div>
+              <div class="form-floating mb-3 input">
+                <label for="floatingInput">비밀번호 확인</label>
+                <input type="password" class="form-control auth-input" id="password2" name="password2" placeholder="비밀번호 확인"/>
+              </div>
+              <div class = "error-message">{{ error }}</div>
+              <div class="btn-wrapper">
+                <button class="btn-signup" style="padding:13px">회원가입</button>
+              </div>
+            </form>
           </div>
-          <div class="form-floating mb-3 input">
-            <input type="password" class="form-control auth-input" id="password" name="password" placeholder="비밀번호"/>
-            <label for="floatingInput">비밀번호</label>
-          </div>
-          <div class="form-floating mb-3 input">
-            <input type="password" class="form-control auth-input" id="password2" name="password2" placeholder="비밀번호 확인"/>
-            <label for="floatingInput">비밀번호 확인</label>
-          </div>
-          <div>{{ error }}</div>
-          <div class="btn-wrapper">
-            <button class="btn btn-red font-color-white" style="padding:13px">회원가입</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>

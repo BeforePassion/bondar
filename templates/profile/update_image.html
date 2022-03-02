@@ -58,7 +58,7 @@
         .innerHTML
         .replace(/\s/g, '')
       //file이름과 file을 formdata 로 변환
-      form_data.append('key', 'aa');
+      form_data.append('key', '{{ user.id}}');
       form_data.append('type', text)
       form_data.append('img', file);
       $
@@ -78,7 +78,7 @@
             form_data.delete('key')
             form_data.delete('type')
             form_data.delete('img')
-            form_data.append('user_id', 1)
+            form_data.append('user_id', '{{ user.id }}')
             form_data.append('original_image_url', response.original_image_url)
             form_data.append('nst_image_url', response.nst_image_url)
             $("#user-img").attr("src", response.nst_image_url); // nst url을 바로 넣어준다

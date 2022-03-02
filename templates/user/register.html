@@ -1,74 +1,161 @@
 {% extends '../base.html' %}
-{% block header_btn %}
-
-  <ul style="list-style: none;">
-    <li class="">
-      <a class="btn btn-red font-color-white" href="/sign-in">
-        로그인
-      </a>
-    </li>
-  </ul>
-{% endblock %}
-{% block background %}
-  <div>
-    <div id='background'>
-      <div class='mask'></div>
-    </div>
-  </div>
-{% endblock %}
 {% block content %}
-    <div style="height: 100px"></div>
-  <div class="wrapper">
-    <div class="login-content">
-      <div class="form-content">
-        <form method="post" action='/register/'>{% csrf_token %}
-            <h1 class="font-color-white login-title">계정 만들기</h1>
-            <div>
-              <label for="floatingInput">닉네임</label>
-              <input type="text" class="form-control auth-input" id="username" name="username" placeholder="닉네임"/>
-            </div>
-            <div>
-              <label for="floatingInput">생일</label>
-              <input type="text" class="form-control auth-input" id="birth" name="birth" placeholder="생일"/>
-            </div>
-            <div>
-              <label for="floatingInput">성별</label>
-              <input type="text" class="form-control auth-input" id="gender" name="gender" placeholder="나의 성별"/>
-            </div>
-            <div>
-              <label for="floatingInput">상대의 성별</label>
-              <input type="text" class="form-control auth-input" id="target_gender" name="target_gender" placeholder="상대의 성별"/>
-            </div>
-            <div>
-              <label for="floatingInput">프로필 사진</label>
-              <input type="text" class="form-control auth-input" id="birth" name="birth" placeholder="생일"/>
-            </div>
-            <div class="btn-wrapper">
-              <button class="btn btn-red font-color-white" style="padding:13px">시작하기</button>
-            </div>
-          <script>
-            const open = () => {
-                document.querySelector(".modal").classList.remove("hidden");
-            }
-
-            const close = () => {
-                document.querySelector(".modal").classList.add("hidden");
-            }
-
-            document.querySelector(".openBtn").addEventListener("click", open);
-            document.querySelector(".closeBtn").addEventListener("click", close);
-            document.querySelector(".bg").addEventListener("click", close);
-
-            </script>
-          
-
-          <div class="btn-wrapper">
-            <button class="btn btn-red font-color-white" style="padding:13px">시작하기</button>
+  <div class="md:container md:mx-auto mt-16 h-full flex justify-around items-center">
+    <div class="h-[40rem] w-96 flex flex-col justify-center">
+      <form method="post" action='/register/'>{% csrf_token %}
+        <h1 class="">계정 정보를 추가해야 이용할 수 있어요</h1>
+        <div class="w-full">
+          <div>유저네임</div>
+          <div>
+            <input type="text" class="mainInput" id="username" name="username" placeholder="유저네임"/>
           </div>
-        </form>
+        </div>
+        <div class="w-full">
+          <div>생일</div>
+          <div>
+            <input type="text" class="mainInput" id="birth" name="birth" placeholder="생일"/>
+          </div>
+        </div>
+        <div>
+          <div class="w-16 mt-10 mb-5 text-sm flex items-center mr-2">성별</div>
+          <input id='my-gender' name='gender' type="text" value="" class="hidden">
+          <input id="my-male" onclick="on_select_gender(this)" type="button" value="남성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+          <input id="my-female" onclick="on_select_gender(this)" type="button" value="여성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+        </div>
+        <div>
+          <div class="w-16 my-5 text-sm flex items-center mr-2">선호 성별</div>
+          <input id='target-gender' name='target_gender' type="text" value="" class="hidden">
+          <input id="target-male" onclick="on_select_taget_gender(this)" type="button" value="남성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+          <input id="target-female" onclick="on_select_taget_gender(this)" type="button" value="여성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+          <input id="target-both" onclick="on_select_taget_gender(this)" type="button" value="모두" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+        </div>
+        <div class="flex justify-center items-center text-white mt-10">
+          <button type="submit" class="mainColor rounded-md w-32 h-12 flex justify-center items-center active:bg-red-700">
+            <span id="change-btn-text">시작하기</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div id="user-image-box">
+      <div id="card-container" class="mb-6">
+        <label for="file-input">
+          <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md hidden" src="" alt="">
+          <div id="user-img-mask" class="bg-gray-300 w-80 h-96 cursor-pointer rounded-md"></div>
+          <input id='file-input' type="file" class="hidden">
+        </label>
+      </div>
+      <div id="image-text" class="w-full flex justify-center mb-3">{{error}}</div>
+      <div class="flex justify-center items-center">
+        <button onclick="image_url()" class="transition duration-300 ease-in-out rounded-md border w-24 py-3 flex justify-center items-center hover:bg-rose-500 hover:text-white active:bg-rose-900">
+          <span id="change-btn-text" class="">유화작업</span>
+          <svg id="loader" xmlns="http://www.w3.org/2000/svg" class="hidden animate-bounce h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
+  <script>
+    function on_select_gender(e) {
+      let gender = document.querySelector("#my-gender");
+      let male = $('#my-male')
+      let female = $('#my-female')
+      gender.value = e.value
+      if (e.value == '남성') {
+        male.addClass('mainColor');
+        male.addClass('text-white');
+        female.removeClass('mainColor')
+        female.removeClass('text-white');
+      } else {
+        female.addClass('mainColor')
+        female.addClass('text-white');
+        male.removeClass('mainColor')
+        male.removeClass('text-white');
+      }
+    }
+
+    function on_select_taget_gender(e) {
+      let gender = document.querySelector("#target-gender");
+      let male = $('#target-male')
+      let female = $('#target-female')
+      let both = $('#target-both')
+      gender.value = e.value
+      if (e.value == '남성') {
+        male.addClass('mainColor');
+        male.addClass('text-white');
+        female.removeClass('mainColor')
+        female.removeClass('text-white');
+        both.removeClass('mainColor')
+        both.removeClass('text-white');
+      } else if (e.value == '여성') {
+        female.addClass('mainColor')
+        female.addClass('text-white');
+        male.removeClass('mainColor')
+        male.removeClass('text-white');
+        both.removeClass('mainColor')
+        both.removeClass('text-white');
+      } else {
+        both.addClass('mainColor')
+        both.addClass('text-white');
+        male.removeClass('mainColor')
+        male.removeClass('text-white');
+        female.removeClass('mainColor')
+        female.removeClass('text-white');
+      }
+    }
+
+    function image_url() { // nst server 에 이미지 변환 요청하는 함수
+      let original_image_url = ''
+      let nst_image_url = ''
+
+      let form_data = new FormData();
+      const file = $('#file-input')[0].files[0];
+      //file이름과 file을 formdata 로 변환
+      form_data.append('key', '{{ user.id }}');
+      form_data.append('type', '불')
+      form_data.append('img', file);
+      $
+        .ajax({ //nst 서버에서 장고닌자로 만들었던 api upload 주소에 formdata와 함께 보낸다
+          type: 'POST',
+          url: 'http://127.0.0.1:8080/api/v1/upload',
+          data: form_data,
+          crossDomain: true,
+          contentType: false,
+          cache: false,
+          processData: false,
+          beforeSend: function () {
+            $('#change-btn-text').addClass('hidden')
+            $('#loader').removeClass('hidden')
+          },
+          success: function (response) { // 성공적으로 response를 받으면 formdata를 url 받은걸로 수정
+            form_data.delete('key')
+            form_data.delete('type')
+            form_data.delete('img')
+            form_data.append('user_id', '{{ user.id }}')
+            form_data.append('original_image_url', response.original_image_url)
+            form_data.append('nst_image_url', response.nst_image_url)
+            $("#user-img").attr("src", response.nst_image_url); // nst url을 바로 넣어준다
+          },
+          complete: function () {
+            $('#change-btn-text').removeClass('hidden')
+            $('#loader').addClass('hidden')
+          }
+        })
+        .then(function (response) { //then은 위에 ajax가 끝나면 바로 시작하는 함수
+          $.ajax({ // 바로 ajax를 실행해서 여기 서버에서 만든 file url 저장하는 api에 데이터와 함께 보낸다
+            type: 'POST',
+            url: "{% url 'api-1.0.0:file' %}",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (response) {
+              console.log(response)
+            }
+          })
+        })
+    }
+  </script>
 {% endblock %}
 
 <!-- modal 창 띄우기 -->
