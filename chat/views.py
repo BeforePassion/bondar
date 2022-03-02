@@ -2,16 +2,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
+from chat.models import RoomJoin
 from chat.services.chat_room_service import get_an_chat_room_list, get_chat_room_user, confirm_user_chat_room_join, \
     creat_an_chat_room, creat_an_room_join
 from chat.services.message_service import get_an_message_list
 
-# Create your views here. / views 호출하려면 매핑되는 URLconf 필요
-# chat_view 함수를 호출하면 chat.html 을 렌더해주는 함수
-# @login_required
 from user.models import UserModel
 
+from collections import Counter
 
+# Create your views here. / views 호출하려면 매핑되는 URLconf 필요
+# chat_view 함수를 호출하면 chat.html 을 렌더해주는 함수
+@login_required
 def chat_view(request: HttpRequest) -> HttpResponse:
     # 사용자가 있는지 없는지 판단
     user = request.user.is_authenticated
@@ -61,6 +63,18 @@ def room_view(request: HttpRequest, room_name: str) -> HttpResponse:
 def api_create_room(request: HttpRequest, user_id: int) -> HttpResponse:
     user1 = UserModel.objects.get(id=request.user.id)
     user2 = UserModel.objects.get(id=user_id)
+
+    find_room_qs = RoomJoin.objects.filter(user_id__in=[user1.id, user2.id])
+    #이러면 1번 유저가 참여한 모든 방, 2번 유저가 모두 참여한 방 가져옴
+
+    find_room_list = []
+    for find_room in find_room_qs:
+        find_room_list.append(find_room.room_id)
+
+    result = Counter(find_room_list)
+    for key,value in result.items():
+        if value >= 2:
+            return redirect(("/chat/"+str(key.id)))
 
     room = creat_an_chat_room()
     room_id = room.id
