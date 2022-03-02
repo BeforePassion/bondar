@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from point.models import PointHistory
+from userprofile.models import UserProfile
 from .models import UserModel
 from django.contrib.auth import get_user_model  # 사용자가 데이터베이스 안에 있는지 검사하는 함수
 from django.contrib import auth
@@ -49,7 +50,7 @@ def sign_up_view(request):
         else:
             exist_user = get_user_model().objects.filter(email=email)
             if exist_user:
-                return render(request, 'user/signup.html', {'error': '이메일이 이미 존재합니다 ;( '})
+                return render(request, 'user/signin.html', {'error': '이메일이 이미 존재합니다 ;( '})
             else:
                 user = UserModel.objects.create_user(
                     email=email, password=password)
@@ -77,7 +78,7 @@ def sign_up_view(request):
                 # messages.success(request,'계정이 생성되었습니다 :)')
                 point = PointHistory.objects.create(user_id = user.id)
                 point.save()
-                return redirect('/welcome/sign-in')
+                return redirect('/sign-in')
 
 
 def sign_in_view(request):
@@ -133,12 +134,17 @@ def register_user(request):
     elif request.method == 'POST':
         user = request.user
         myuser = UserModel.objects.get(id=user.id)
+        exist_profile = UserProfile.objects.filter(user=user.id).exists()
         if user.is_authenticated:
-            myuser.username = request.POST.get('username')
-            myuser.birth = request.POST.get('birth')
-            myuser.gender = request.POST.get('gender')
-            myuser.target_gender = request.POST.get('target_gender')
-            myuser.invalid_user = 1
-            myuser.save()
-            return redirect('/main')
-
+            if exist_profile:
+                myuser.username = request.POST.get('username')
+                myuser.birth = request.POST.get('birth')
+                myuser.gender = request.POST.get('gender')
+                myuser.target_gender = request.POST.get('target_gender')
+                myuser.invalid_user = 1
+                myuser.save()
+                return redirect('/main')
+            else:
+                return render(request, 'user/register.html', {'error': '이미지는 필수!'})
+        else:
+            redirect('/sign-in')
