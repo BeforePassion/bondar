@@ -55,6 +55,8 @@ class UserModel(AbstractUser):
     gender = models.CharField(default=0, max_length=80)
     target_gender = models.CharField(default=0, max_length=80)
     is_email_verified = models.BooleanField(default=False)
+    hate = models.IntegerField(default=0)
+    invalid_user = models.IntegerField(default=0)
    
     # 폰인증은 제외하기로 함
     # phoneNumberRegex = RegexValidator(regex=r"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$")  # 정규표현식을 사용한 전화번호 표기방식

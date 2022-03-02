@@ -5,30 +5,40 @@
 {% endblock page_title %}
 {% block content %}
   <div class="md:container md:mx-auto mt-16 h-full flex justify-around items-center">
-    <div id="input-box" class="h-[40rem]">
-      <div>
-        <div>유저네임</div>
-        <input type="text">
+    <div id="input-box" class="h-[40rem] w-96 flex flex-col justify-center">
+      <div class="flex">
+        <div class="w-16 my-5 text-sm flex items-center mr-2">유저네임</div>
+        <div class="w-full flex items-center">
+          <input id="username" name="email" type="text" autocomplete="username" required="required" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="유저네임">
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-16 my-5 text-sm flex items-center mr-2">패스워드</div>
+        <div class="w-full flex items-center">
+          <input id="password" name="password" type="password" autocomplete="current-password" required="required" class=" w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="패스워드">
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-16 my-5 text-sm flex items-center mr-2">이메일</div>
+        <div class="w-full flex items-center">
+          <input id="email-address" name="email" type="email" autocomplete="email" required="required" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="이메일">
+        </div>
       </div>
       <div>
-        <div>패스워드</div>
-        <input type="text">
-      </div>
-      <div>
-        <div>이메일</div>
-        <input type="text">
-      </div>
-      <div>
-        <div>선호 성별</div>
-        <input type="text">
+        <div class="w-16 my-3 text-sm flex items-center mr-2">선호 성별</div>
+        <input id='target_gender' name='target_gender' type="text" value="" class="hidden">
+        <input id="male" onclick="on_select_gender(this)" type="button" value="남성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+        <input id="female" onclick="on_select_gender(this)" type="button" value="여성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
+        <input id="both" onclick="on_select_gender(this)" type="button" value="모두" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
       </div>
     </div>
     <div id="user-image-box">
-      <div id="card-container" class="">
-        <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md" src="" alt="">
-      </div>
+      <a href="/user-edit/image">
+        <div id="card-container" class="">
+          <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md" src="" alt="">
+        </div>
+      </a>
     </div>
-
   </div>
   <div class="flex justify-center items-center text-white">
     <button onclick="" class="mainColor rounded-md w-32 h-12 flex justify-center items-center">
@@ -55,6 +65,36 @@
           $("#user-img").attr("src", response.nst_image_url);
         }
       });
+    }
+
+    function on_select_gender(e) {
+      let gender = document.querySelector("#target_gender");
+      let male = $('#male')
+      let female = $('#female')
+      let both = $('#both')
+      gender.value = e.value
+      if (e.value == '남성') {
+        male.addClass('bg-rose-500');
+        male.addClass('text-white');
+        female.removeClass('bg-rose-500')
+        female.removeClass('text-white');
+        both.removeClass('bg-rose-500')
+        both.removeClass('text-white');
+      } else if (e.value == '여성') {
+        female.addClass('bg-rose-500')
+        female.addClass('text-white');
+        male.removeClass('bg-rose-500')
+        male.removeClass('text-white');
+        both.removeClass('bg-rose-500')
+        both.removeClass('text-white');
+      } else {
+        both.addClass('bg-rose-500')
+        both.addClass('text-white');
+        male.removeClass('bg-rose-500')
+        male.removeClass('text-white');
+        female.removeClass('bg-rose-500')
+        female.removeClass('text-white');
+      }
     }
   </script>
 {% endblock %}
