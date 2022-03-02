@@ -1,6 +1,3 @@
-$( document ).ready(function() {
-    alert("fds");
-});
 
 function show_d1() {
     $('#d1').show()

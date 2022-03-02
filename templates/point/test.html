@@ -7,6 +7,7 @@
     <script>
         $(document).ready(function () {
             show_point();
+            show_charge_history();
         });
 
         function show_point() {
@@ -15,6 +16,34 @@
                 url: "/api/point/point",
                 success: function (response) {
                     $('#my_point').append(response);
+                }
+            })
+        };
+
+        function show_charge_history() {
+            $.ajax({
+                type: "GET",
+                url: "/api/point/charge_history",
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+
+                        let point = response[i]['point']
+                        console.log(point)
+                        let date = response[i]['created_at']
+                        console.log(date)
+                        let history = response[i]['history']
+                        console.log(history)
+
+                        let temp_html = `<tr>
+                            <td>${date}</td>
+                            <td>${point}</td>
+                            <td>${history}</td>
+                            </tr>`
+
+                        $('#d2').append(temp_html);
+                    }
+
+
                 }
             })
         };
@@ -52,7 +81,15 @@
                 </form>
                 <button type="submit" form="point">충전하기</button>
             </div>
-            <div class="box" id="d2" style="display: none">충전내역 텍스트</div>
+            <div class="box" id="d2" style="display: none">
+                충전내역 텍스트
+                <p>충전 내역</p>
+                <tr>
+                    <td>date</td>
+                    <td>point</td>
+                    <td>내용</td>
+                </tr>
+            </div>
             <div class="box" id="d3" style="display: none">사용내역 텍스트</div>
             <div class="box" id="d4" style="display: none">포인트안내 텍스트</div>
 
