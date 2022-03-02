@@ -4,6 +4,7 @@ from ninja import NinjaAPI
 from user.models import UserModel
 from point.models import PointHistory
 from point.schema import NotEnoughPoint, PointSchema
+from django.shortcuts import redirect
 
 api_point = NinjaAPI(urls_namespace="point")
 
@@ -18,7 +19,7 @@ def my_point(request):
 def charge(request, point):
     p = request.user.point
     UserModel.objects.filter(id=request.user.id).update(point=p+int(point))
-    return HttpResponse("success")
+    return redirect('/point')
 
 
 @api_point.get("/charge_history")
