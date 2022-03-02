@@ -249,6 +249,7 @@ tailwind.config.js
 package.json
 package-lock.json
 /assets/
+/user/migrations/*
 
 # migration
 /user/migrations/*

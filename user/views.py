@@ -19,8 +19,6 @@ from .utils import token_generator
 
 
 
-
-
 def sign_up_view(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
