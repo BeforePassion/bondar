@@ -22,8 +22,11 @@ from .utils import token_generator
 def sign_up_view(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
-        if user:  # 로그인 되어있다면
-            return redirect('/') 
+        if user :
+            if request.user.invalid_user == True: 
+                return redirect('/main') 
+            elif request.user.invalid_user == False:
+                return redirect('/register')
         else:
             return render(request, 'user/signup.html')
     elif request.method == 'POST':
@@ -47,7 +50,7 @@ def sign_up_view(request):
             else:
                 user = UserModel.objects.create_user(
                     email=email, password=password)
-                user.is_active = False
+                user.is_active = True
                 user.save()
 
                 # email verification tests
@@ -59,7 +62,7 @@ def sign_up_view(request):
                 activate_url = 'https://'+domain+link
 
                 email_subject = 'bondar계정을 인증하세요:)'
-                email_body = '안녕하세요 '+user.username+':)' +'이 링크를 통하여 계정을 인증하세요!\n'+activate_url
+                email_body = '안녕하세요 '+user.username+':)' +' 이 링크를 통하여 계정을 인증하세요!\n'+activate_url
                 email = EmailMessage(
                     email_subject,
                     email_body,
@@ -77,8 +80,12 @@ def sign_up_view(request):
 def sign_in_view(request):
     if request.method == 'GET':
         user = request.user.is_authenticated
-        if user:
-            return redirect('/main')
+        if user :
+            print(request.user.invalid_user)
+            if request.user.invalid_user == True: 
+                return redirect('/main')
+            elif request.user.invalid_user == False:
+                return redirect('/register')
         else:
             return render(request, 'user/signin.html')
     elif request.method == 'POST':
@@ -92,7 +99,10 @@ def sign_in_view(request):
                                password=password, username=username)
         if me is not None:  
             auth.login(request, me)
-            return redirect('/main')
+            if me.invalid_user == True:
+                return redirect('/main')
+            else:
+                return redirect('/register')
         else:
             return render(request, 'user/signin.html', {'error': '회원정보가 일치하지 않습니다 ;( '})
 
@@ -105,3 +115,27 @@ def logout(request):
 class VerificationView(View):
     def get(self, request, uidb64, token):
         return redirect('/sign-in')
+
+def register_user(request):
+    if request.method == 'GET':
+        user = request.user.is_authenticated
+        if user :
+            if request.user.invalid_user == True: 
+                return redirect('/main')
+            elif request.user.invalid_user == False:
+                return render(request, 'user/register.html')
+        else:
+            return redirect('/sign-up')
+    
+    elif request.method == 'POST':
+        user = request.user
+        myuser = UserModel.objects.get(id=user.id)
+        if user.is_authenticated:
+            myuser.username = request.POST.get('username')
+            myuser.birth = request.POST.get('birth')
+            myuser.gender = request.POST.get('gender')
+            myuser.target_gender = request.POST.get('target_gender')
+            myuser.invalid_user = 1
+            myuser.save()
+            return redirect('/main')
+

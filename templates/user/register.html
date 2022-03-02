@@ -21,7 +21,7 @@
   <div class="wrapper">
     <div class="login-content">
       <div class="form-content">
-        <form method="post" action='/welcome/sign-up/'>{% csrf_token %}
+        <form method="post" action='/register/'>{% csrf_token %}
             <h1 class="font-color-white login-title">계정 만들기</h1>
             <div>
               <label for="floatingInput">닉네임</label>
@@ -33,10 +33,11 @@
             </div>
             <div>
               <label for="floatingInput">성별</label>
+              <input type="text" class="form-control auth-input" id="gender" name="gender" placeholder="나의 성별"/>
             </div>
             <div>
               <label for="floatingInput">상대의 성별</label>
-              <input type="text" class="form-control auth-input" id="target-sex" name="target-sex" placeholder="상대의 성별"/>
+              <input type="text" class="form-control auth-input" id="target_gender" name="target_gender" placeholder="상대의 성별"/>
             </div>
             <div>
               <label for="floatingInput">프로필 사진</label>
@@ -59,12 +60,7 @@
             document.querySelector(".bg").addEventListener("click", close);
 
             </script>
-          <div>
-              {% comment %} 프로필사진
-              onclick -> modal popup 
-              modal -> {% include {% endcomment %}
-            
-          </div>
+          
 
           <div class="btn-wrapper">
             <button class="btn btn-red font-color-white" style="padding:13px">시작하기</button>
