@@ -16,6 +16,7 @@ def user_view(request):
         for user in i_like_list:
             num = user.id
             like_num.append(num)
+        like_num.append(request.user.id)
         # exclude로 id값이 담긴 리스트를 통해 현재 로그인 한 유저가 좋아요 한 계정을 제외한 유저를 유저 리스트에 담기
         user_list = UserModel.objects.all().exclude(id__in=like_num)
         return render(request, 'main.html', {'user_list': user_list})
