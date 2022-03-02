@@ -31,7 +31,7 @@
         </div>
         <div class="flex justify-center items-center text-white mt-10">
           <button type="submit" class="mainColor rounded-md w-32 h-12 flex justify-center items-center active:bg-red-700">
-            <span id="change-btn-text">변경하기</span>
+            <span id="change-btn-text">시작하기</span>
           </button>
         </div>
       </form>
@@ -44,7 +44,7 @@
           <input id='file-input' type="file" class="hidden">
         </label>
       </div>
-      <div id="image-text" class="w-full flex justify-center">이미지가 필요합니다</div>
+      <div id="image-text" class="w-full flex justify-center mb-3">{{error}}</div>
       <div class="flex justify-center items-center">
         <button onclick="image_url()" class="transition duration-300 ease-in-out rounded-md border w-24 py-3 flex justify-center items-center hover:bg-rose-500 hover:text-white active:bg-rose-900">
           <span id="change-btn-text" class="">유화작업</span>

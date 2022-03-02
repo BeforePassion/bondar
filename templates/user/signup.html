@@ -1,6 +1,7 @@
 {% extends '../user/start_base.html' %}
 {% block css %}
 <link rel="stylesheet" href='../static/css/signup.css'>
+<title>{% block page_title %}Sign-up{% endblock page_title %} | Bondar</title>
 {% endblock css%}
 {% block content %}
   <div class="container">
@@ -24,7 +25,7 @@
                 <label for="floatingInput">비밀번호 확인</label>
                 <input type="password" class="form-control auth-input" id="password2" name="password2" placeholder="비밀번호 확인"/>
               </div>
-              <div>{{ error }}</div>
+              <div class = "error-message">{{ error }}</div>
               <div class="btn-wrapper">
                 <button class="btn-signup" style="padding:13px">회원가입</button>
               </div>
