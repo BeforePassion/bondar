@@ -110,7 +110,7 @@ def sign_in_view(request):
 @login_required
 def logout(request):
     auth.logout(request)  # 인증되어있는 정보를 없애기
-    return redirect("/")
+    return redirect("/sign-in")
 
 class VerificationView(View):
     def get(self, request, uidb64, token):
