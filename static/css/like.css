@@ -1,4 +1,6 @@
 .user_container {
+    display: flex;
+    justify-content: center;
 }
 .user_card_wrapper {
     background-color: #ffa5ab;
