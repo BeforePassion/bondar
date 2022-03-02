@@ -7,7 +7,7 @@
     <script>
         $(document).ready(function () {
             show_point();
-            show_charge_history();
+            show_charge_history(1);
             show_usage_history();
         });
 
@@ -21,16 +21,25 @@
             })
         };
 
-        function show_charge_history() {
+        function show_charge_history(pageNum) {
+            $('#pagination').empty();
+            $('#d2-2').empty();
+            console.log('show_charge_history_실행')
             $.ajax({
                 type: "GET",
-                url: "/api/point/charge_history",
+                url: "/api/point/charge_history/" + pageNum,
+                datatype: "JSON",
                 success: function (response) {
-                    for (let i = 0; i < response.length; i++) {
+                    console.log("success");
+                    console.log(response);
+                    let p_data = response["p"];
+                    let t_page = response["t"];
+                    console.log("page", t_page['total_page'])
+                    for (let i = 0; i < p_data.length; i++) {
 
-                        let point = response[i]['point']
-                        let date = response[i]['created_at']
-                        let history = response[i]['history']
+                        let point = p_data[i]['point']
+                        let date = p_data[i]['created_at']
+                        let history = p_data[i]['history']
 
                         let temp_html = `<tr>
                             <td>${date}</td>
@@ -40,6 +49,21 @@
 
                         $('#d2-2').append(temp_html);
                     }
+                    ;
+                    for (let j = 0; j < t_page['total_page']; j++) {
+                        let num = j + 1;
+                        if (num === pageNum) {
+                            let temp_html = ` <a style="color: red">${num}</a>`
+                            $('#pagination').append(temp_html);
+
+                        } else {
+                            let temp_html = ` <a href="javascript:show_charge_history(${num})">${num}</a>`
+                            $('#pagination').append(temp_html);
+                        }
+                    }
+                },
+                error: function () {
+                    alert("안돼, 돌아가.");
                 }
             })
         };
@@ -66,6 +90,10 @@
                 }
             })
         };
+
+        function pagination() {
+
+        }
     </script>
 
     <div class="main-container">
@@ -109,6 +137,7 @@
                         <td>내용</td>
                     </tr>
                 </table>
+                <ul id="pagination"></ul>
             </div>
             <div class="box" id="d3" style="display: none">
                 <p>사용내역</p>
