@@ -1,13 +1,22 @@
 
 from django.shortcuts import render, redirect
+from django.views import View
 
 from point.models import PointHistory
 from .models import UserModel
 from django.contrib.auth import get_user_model  # 사용자가 데이터베이스 안에 있는지 검사하는 함수
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_encode
+from django.contrib.sites.shortcuts import get_current_site
+from .utils import token_generator
 
-from django.shortcuts import redirect, render
 
 
 
@@ -24,6 +33,7 @@ def sign_up_view(request):
         password = request.POST.get('password', None)
         password2 = request.POST.get('password2', None)
 
+
         if email == '' or password == '':
             return render(request, 'user/signup.html', {'error': '빈칸을 채워주세요 :)'}, )
 
@@ -39,7 +49,28 @@ def sign_up_view(request):
             else:
                 user = UserModel.objects.create_user(
                     email=email, password=password)
+                user.is_active = False
                 user.save()
+
+                # email verification tests
+
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                domain = get_current_site(request).domain
+                link= reverse('activate', kwargs={'uidb64':uidb64, 'token':token_generator.make_token(user)})
+
+                activate_url = 'https://'+domain+link
+
+                email_subject = 'bondar계정을 인증하세요:)'
+                email_body = '안녕하세요 '+user.username+':)' +'이 링크를 통하여 계정을 인증하세요!\n'+activate_url
+                email = EmailMessage(
+                    email_subject,
+                    email_body,
+                    'noreply@bondar.com',
+                    [email],
+                )
+                email.send()
+
+                # messages.success(request,'계정이 생성되었습니다 :)')
                 point = PointHistory.objects.create(user_id = user.id)
                 point.save()
                 return redirect('/welcome/sign-in')
@@ -73,4 +104,6 @@ def logout(request):
     auth.logout(request)  # 인증되어있는 정보를 없애기
     return redirect("/")
 
-
+class VerificationView(View):
+    def get(self, request, uidb64, token):
+        return redirect('/sign-in')
