@@ -61,7 +61,7 @@
                             <td>${history}</td>
                             </tr>`
 
-                        $('#d3').append(temp_html);
+                        $('#d3-3').append(temp_html);
                     }
                 }
             })
@@ -111,12 +111,14 @@
                 </table>
             </div>
             <div class="box" id="d3" style="display: none">
-                <p>사용내역 텍스트</p>
-                <tr>
-                    <td>date</td>
-                    <td>point</td>
-                    <td>내용</td>
-                </tr>
+                <p>사용내역</p>
+                <table id="d3-3" style="margin: auto">
+                    <tr>
+                        <td>date</td>
+                        <td>point</td>
+                        <td>내용</td>
+                    </tr>
+                </table>
             </div>
             <div class="box" id="d4" style="display: none">포인트안내 텍스트</div>
 

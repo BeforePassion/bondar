@@ -33,6 +33,5 @@ def charge_history(request):
 @api_point.get("/usage_history")
 def usage_history(request):
     data = PointHistory.objects.filter(user_id=request.user.id, usage=False)
-    print(data)
     data = list(data.values())
     return JsonResponse(data, safe=False)
