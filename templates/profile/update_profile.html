@@ -9,24 +9,18 @@
       <div class="flex">
         <div class="w-16 my-5 text-sm flex items-center mr-2">유저네임</div>
         <div class="w-full flex items-center">
-          <input id="username" name="email" type="text" autocomplete="username" required="required" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="유저네임">
+          <input id="username" name="username" type="text" value="{{ user.username }}" autocomplete="username" required="required" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="유저네임">
         </div>
       </div>
       <div class="flex">
-        <div class="w-16 my-5 text-sm flex items-center mr-2">패스워드</div>
+        <div class="w-16 my-5 text-sm flex items-center mr-2">생일</div>
         <div class="w-full flex items-center">
-          <input id="password" name="password" type="password" autocomplete="current-password" required="required" class=" w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="패스워드">
-        </div>
-      </div>
-      <div class="flex">
-        <div class="w-16 my-5 text-sm flex items-center mr-2">이메일</div>
-        <div class="w-full flex items-center">
-          <input id="email-address" name="email" type="email" autocomplete="email" required="required" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="이메일">
+          <input id="birth" name="birth" type="text" value="{{ user.birth }}" autocomplete="birth" required="required" class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-rose-500 focus:border-rose-500 focus:z-10 sm:text-sm" placeholder="생일">
         </div>
       </div>
       <div>
-        <div class="w-16 my-3 text-sm flex items-center mr-2">선호 성별</div>
-        <input id='target_gender' name='target_gender' type="text" value="" class="hidden">
+        <div class="w-16  mt-20 mb-5 text-sm flex items-center mr-2">선호 성별</div>
+        <input id='target_gender' name='target_gender' type="text" value="{{user.target_gender}}" class="hidden">
         <input id="male" onclick="on_select_gender(this)" type="button" value="남성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
         <input id="female" onclick="on_select_gender(this)" type="button" value="여성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
         <input id="both" onclick="on_select_gender(this)" type="button" value="모두" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
@@ -41,7 +35,7 @@
     </div>
   </div>
   <div class="flex justify-center items-center text-white">
-    <button onclick="" class="mainColor rounded-md w-32 h-12 flex justify-center items-center">
+    <button onclick="update_user()" class="mainColor rounded-md w-32 h-12 flex justify-center items-center active:bg-red-700">
       <span id="change-btn-text">변경하기</span>
       <svg id="loader" xmlns="http://www.w3.org/2000/svg" class="animate-spin h-6 w-6 hidden" fill="white" viewbox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -51,6 +45,7 @@
   <script>
     $(document).ready(function () {
       get_image()
+      check_select()
     });
 
     function get_image() {
@@ -65,6 +60,52 @@
           $("#user-img").attr("src", response.nst_image_url);
         }
       });
+    }
+
+    function update_user() {
+      const username = document
+        .querySelector("#username")
+        .value;
+      const birth = document
+        .querySelector("#birth")
+        .value;
+      const target_gender = document
+        .querySelector("#target_gender")
+        .value;
+      const user_id = "{{ user.id }}";
+
+      let form_data = new FormData();
+      form_data.append('username', username)
+      form_data.append('birth', birth)
+      form_data.append('target_gender', target_gender)
+      $.ajax({
+        type: "POST",
+        url: `http://localhost:8000/api/v1/images/${user_id}`,
+        data: form_data,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (response) {
+          console.log(response)
+        }
+      });
+    }
+
+    function check_select() {
+      let gender = document.querySelector("#target_gender");
+      let male = $('#male')
+      let female = $('#female')
+      let both = $('#both')
+      if (gender.value == '남성') {
+        male.addClass('bg-rose-500');
+        male.addClass('text-white');
+      } else if (gender.value == '여성') {
+        female.addClass('bg-rose-500');
+        female.addClass('text-white');
+      } else {
+        both.addClass('bg-rose-500');
+        both.addClass('text-white');
+      }
     }
 
     function on_select_gender(e) {
