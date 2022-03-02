@@ -1,4 +1,110 @@
-#background{
-    width: 100%;
-    background-color: aquamarine;
+*{
+  font-family: 'Gowun Dodum', sans-serif;
 }
+
+
+body{
+    height: 100vh;
+    background-color:#FF4F59;
+    background: linear-gradient(#FF4F59, white);
+    background-size: cover;
+}
+
+button:focus {
+    outline: 0 !important;
+}
+
+.welcome{
+    font-size: 8vw;
+    color : white;
+    text-align: center;
+    line-height: 1.18;
+    font-weight: 700;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    margin-top : 380px;
+}
+
+.login{
+    width: 130px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    border: none;
+    float: right;
+    margin-top:20px;
+    margin-right: 30px;
+  }
+  .login:hover{
+      color:#FF4F59
+  }
+
+#create-account{
+    text-align: center;
+    margin-top :30px;
+}
+
+.button {
+    position: relative;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 300px;
+    height: 80px;
+    border-radius: 50px;
+    outline: none;
+    background: linear-gradient(90deg, #ec37d0, #d92b2b, #ffaa0d, #ec37d0);
+    background-size: 400%;
+    color: #fff;
+    font-size: 24px;
+    letter-spacing: 4px;
+}
+.button {
+    position: relative;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    width: 300px;
+    height: 80px;
+    border-radius: 50px;
+    outline: none;
+    background: linear-gradient(90deg, #ec37d0, #d92b2b, #ffaa0d, #ec37d0);
+    background-size: 400%;
+    color: #fff;
+    font-size: 24px;
+    letter-spacing: 4px;
+  }
+  .button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, #ec37d0, #d92b2b, #ffaa0d, #ec37d0);
+    background-size: 400%;
+    border-radius: 50px;
+    opacity: 0;
+    transition: .5s;
+  }
+  .button:hover {
+    animation: animate 10s linear infinite;
+  }
+  .button:hover::before {
+    filter: blur(30px);
+    opacity: .8;
+    animation: animate 10s linear infinite;
+  }
+  @keyframes animate {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 400%;
+    }
+  }
+  
