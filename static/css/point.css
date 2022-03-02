@@ -1,8 +1,8 @@
 .main-container {
-    margin: auto;
+    margin: 100px auto;
     text-align: center;
     max-width: 60vw;
-    background-color: #a855f7;
+    background-color: red;
 }
 
 .menu-container {
