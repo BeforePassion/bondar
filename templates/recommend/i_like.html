@@ -4,6 +4,6 @@
 {% block content %}
     <div style="margin-top: 100px">{{ user.id }}님이 좋아하는 사람들</div>
     {% for ul in i_like_user_list %}
-        {% include "components/user_card.html" with url=user_img.nst_img_url email=ul.email id=ul.id %}
+        {% include "components/i_like_user_card.html" with url=user_img.nst_img_url email=ul.email id=ul.id %}
     {% endfor %}
 {% endblock %}

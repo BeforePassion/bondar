@@ -1,13 +1,28 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<!-- Slick 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+<script>
+    $('.user_card').slick({
+        sli
+    })
+</script>
 {% extends 'base.html' %}
 {% block background %}
 {% endblock %}
 {% block content %}
     <div style="margin-top: 100px">{{ user.id }}님의 마음에 드는 사람을 골라보세영</div>
+    <div class="user_card">
     {% for ul in user_list %}
         {% if ul.id != user.id %}
                 {% if ul not in user.friend.all %}
-                    {% include "components/user_card.html" with url=user_img.nst_img_url email=ul.email %}
+                    {% include "components/main_user_card.html" with url=user_img.nst_img_url email=ul.email %}
                 {% endif %}
         {% endif %}
     {% endfor %}
+    </div>
 {% endblock %}
+{#비동기식으로 ajax 사용해야 할듯#}
+{#display none#}
