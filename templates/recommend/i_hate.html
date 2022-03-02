@@ -2,8 +2,9 @@
 {% block background %}
 {% endblock %}
 {% block content %}
-    <div class="user_card">{{ user.id }}님이 싫어요 한 사람들</div>
-    {% for ul in i_hate_user_list %}
-        {% include "components/i_hate_user_card.html" with url=user_img.nst_img_url email=ul.email id=ul.id %}
-    {% endfor %}
+    <div class="user_card" style="display: flex; flex-wrap: wrap">
+        {% for ul in i_hate_user_list %}
+            {% include "components/i_hate_user_card.html" with url=user_img.nst_img_url email=ul.email username=ul.username %}
+        {% endfor %}
+    </div>
 {% endblock %}

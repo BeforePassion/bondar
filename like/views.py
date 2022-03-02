@@ -37,7 +37,21 @@ def user_like(request, id):
 
 
 @login_required
+def user_like2(request, id):
+    click_user = UserModel.objects.get(id=id)
+    click_user.friends.add(request.user)
+    return redirect('/like-me')
+
+
+@login_required
 def user_hate(request, id):
     click_user = UserModel.objects.get(id=id)
     click_user.hates.add(request.user)
     return redirect('/main')
+
+
+@login_required
+def user_hate2(request, id):
+    click_user = UserModel.objects.get(id=id)
+    click_user.hates.add(request.user)
+    return redirect('/like-me')

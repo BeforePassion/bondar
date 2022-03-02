@@ -1,25 +1,27 @@
 {% load static %}
 {% if user_list.0.id %}
-    <div class="card-container" style="display: flex; flex-direction: column; margin-top: 230px; margin-right: 140px">
-        <img id="user-img" style="margin-top: 60px"
-             src=""
-             alt="">
-        <p class="ul-email">{{ email }}</p>
-        <p class="ul-email">{{ id }}</p>
-        <p class="ul-email">{{ username }}</p>
-        <div id="icon-box" class="w-full flex justify-between mt-5">
-            <div id="hate_button" class="w-[3rem]" style="margin-top: 8px">
-                <a href="hate/{{ user_list.0.id }}">
-                    <img src="{% static 'img/empty_broken_heart.png' %}"
-                         onmouseover="this.src='../static/img/broken_heart.png'"
-                         onmouseout="this.src='../static/img/empty_broken_heart.png'">
-                </a>
-            </div>
-            <div id="like_button" class="w-[3.6rem]">
-                <a href="like/{{ user_list.0.id }}">
-                    <img src="{% static 'img/empty_heart.png' %}" onmouseover="this.src='../static/img/heart.png'"
-                         onmouseout="this.src='../static/img/empty_heart.png'">
-                </a>
+    <div id="card-wrapper" style="display: flex; flex-direction: row; justify-content: center; margin-top: 10rem">
+        <div id="card-container"
+             style="background-color: white; border: #243140 solid 3px; border-radius: 30px; width: 400px; height: 500px">
+            <img id="user-img" class="mt-3 bg-cover bg-center w-full h-70"
+                 src="https://ww.namu.la/s/4c30cf3fed5c1a9052a52b527b9c3a4ae98534ee72dfbfd8d728cec568db7a657709d8d87507681663b495ed4355acd9049fd552bf810bda0c5252715ba7c634afbf2c6a859c5b58ab29f98ea6bbb7fa06bfae2f6b436da1788b894c5159627a51f8ade4471387cd3257ab146113095e"
+                 alt="">
+            <p id="ul-id" class="w-80" style="margin-left: 50px; font-size: 30px">{{ username }}</p>
+            <p id="ul-email" class="w-80" style="margin-left: 50px">{{ email }}</p>
+            <div id="icon-box" class="w-full flex justify-between">
+                <div class="w-[3rem]" style="margin-top: 18px; margin-left: 50px">
+                    <a href="hate/{{ user_list.0.id }}">
+                        <img src="{% static 'img/empty_broken_heart.png' %}"
+                             onmouseover="this.src='../static/img/broken_heart.png'"
+                             onmouseout="this.src='../static/img/empty_broken_heart.png'">
+                    </a>
+                </div>
+                <div class="w-[3.6rem] mt-5" style="margin-top: 10px; margin-right: 50px">
+                    <a href="like/{{ user_list.0.id }}">
+                        <img src="{% static 'img/empty_heart.png' %}" onmouseover="this.src='../static/img/heart.png'"
+                             onmouseout="this.src='../static/img/empty_heart.png'">
+                    </a>
+                </div>
             </div>
         </div>
     </div>
