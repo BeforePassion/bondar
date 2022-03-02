@@ -9,6 +9,9 @@ function readURL(input) {
     let reader = new FileReader();
     reader.onload = function (e) {
       $("#user-img").attr("src", e.target.result);
+      $("#user-img").removeClass("hidden");
+      $("#user-img-mask").addClass("hidden");
+      $("#image-text").addClass("hidden");
     };
     reader.readAsDataURL(input.files[0]);
   }
