@@ -15,6 +15,15 @@ def i_like_user_view(request):
 
 
 @login_required
+def hate_user_view(request):
+    if request.method == 'GET':
+        # 현재 로그인 한 유저의 아이디 불러오기
+        user = UserModel.objects.get(id=request.user.id)
+        i_hate_user_list = user.hate.all()
+        return render(request, 'recommend/i_hate.html', {'i_hate_user_list': i_hate_user_list})
+
+
+@login_required
 def like_me_user_view(request):
     if request.method == 'GET':
         user_list = UserModel.objects.exclude(id=request.user.id)
@@ -44,6 +53,13 @@ def user_unlike(request, id):
     click_user = UserModel.objects.get(id=id)
     click_user.friends.remove(request.user)
     return redirect('i_like')
+
+
+@login_required
+def hate_cancel(request, id):
+    click_user = UserModel.objects.get(id=id)
+    click_user.hates.remove(request.user)
+    return redirect('i_hate')
 
 
 @login_required
