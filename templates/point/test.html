@@ -3,8 +3,22 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/point.css' %}">
-    <script type="text/javascript" src="{% static 'js/point.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/point.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            show_point();
+        });
 
+        function show_point() {
+            $.ajax({
+                type: "GET",
+                url: "/api/point/point",
+                success: function (response) {
+                    $('#my_point').append(response);
+                }
+            })
+        };
+    </script>
 
     <div class="main-container">
         <div class="menu-container">
@@ -17,24 +31,26 @@
 
         <div class="menu">
             <div class="box" id="d1">
-                충전하기 텍스트
-                <div>
-                    <input type="radio" id="100" name="point" value="100">
-                    <label for="100">100 point</label>
-                </div>
-                <div>
-                    <input type="radio" id="500" name="point" value="500">
-                    <label for="500">500 point</label>
-                </div>
-                <div>
-                    <input type="radio" id="1000" name="point" value="1000">
-                    <label for="1000">1000 point</label>
-                </div>
-                <div>
-                    <input type="radio" id="5000" name="point" value="5000">
-                    <label for="5000">5000 point</label>
-                </div>
-                <button type="submit">충전하기</button>
+                <p id="my_point">현재 내 포인트: </p>
+                <form action="/api/point/charge" method="put" id="point">
+                    <div>
+                        <input type="radio" id="100" name="point" value="100">
+                        <label for="100">100 point</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="500" name="point" value="500">
+                        <label for="500">500 point</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="1000" name="point" value="1000">
+                        <label for="1000">1000 point</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="5000" name="point" value="5000">
+                        <label for="5000">5000 point</label>
+                    </div>
+                </form>
+                <button type="submit" form="point">충전하기</button>
             </div>
             <div class="box" id="d2" style="display: none">충전내역 텍스트</div>
             <div class="box" id="d3" style="display: none">사용내역 텍스트</div>
