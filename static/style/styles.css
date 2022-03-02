@@ -1174,3 +1174,14 @@ Ensure the default browser behavior of the `hidden` attribute.
     padding-right: 2rem;
   }
 }
+
+*{
+  font-family: 'Gowun Dodum', sans-serif;
+}
+
+body{
+  height: 100vh;
+  background-color:#FF4F59;
+  background: linear-gradient(#FF4F59, white);
+  background-size: cover;
+}
