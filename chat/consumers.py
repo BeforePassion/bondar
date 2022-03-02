@@ -7,19 +7,63 @@ and then calls various functions on the consumer to handle events from the conne
 # websocket 요청을 처리하는 함수는 consumers.py 에입력
 import json
 
-from asgiref.sync import sync_to_async
-from channels.generic.websocket import AsyncWebsocketConsumer
+from asgiref.sync import sync_to_async, async_to_sync
+from channels.generic.websocket import WebsocketConsumer
 
-from chat.models import Room
+from chat.models import Room, Message
 from chat.services.message_service import creat_an_message
 
 # 비동기식 방법으로 진행
 from user.models import UserModel
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class ChatConsumer(WebsocketConsumer):
+
+    def fetch_messages(self, data):
+        room_id = int(self.room_name)
+        messages = Message.last_30_messages(self, room_id=room_id)
+        content = {
+            'command': 'messages',
+            'messages': self.messages_to_json(messages)
+        }
+        self.send_message(content)
+
+    def new_message(self, data):
+        user_id = data['user_id']
+        room_id = int(self.room_name)
+        user_contact = UserModel.objects.filter(id=user_id)[0]
+        room_contact = Room.objects.filter(id=room_id)[0]
+        message = Message.objects.create(
+            user_id=user_contact,
+            room_id=room_contact,
+            message=data['message']
+        )
+        content = {
+            'command': 'new_message',
+            'message': self.message_to_json(message)
+        }
+        return self.send_chat_message(content)
+
+    def messages_to_json(self, messages):
+        result = []
+        for message in messages:
+            result.append(self.message_to_json(message))
+        return result
+
+    def message_to_json(self, message):
+        return {
+            'author': message.user_id.email,
+            'content': message.message,
+            'timestamp': str(message.created_at)
+        }
+
+    commands = {
+        'fetch_messages': fetch_messages,
+        'new_message': new_message
+    }
+
     # websocket 연결
-    async def connect(self):
+    def connect(self):
         # room_name 파라미터를 chat/routing.py URl 에서 얻고, 열러있는 websocket에 접속
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         # 인용이나 이스케이프 없이 사용자 지정 방 이름에서 직접 채널 그룹 이름을 구성
@@ -27,34 +71,41 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_group_name = "chat_%s" % self.room_name
 
         # Join room group / 그룹에 참여
-        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name,
+            self.channel_name
+        )
         # websocket 연결을 수락 / connect() 메서드 내에서 accept()를 호출하지 않으면 연결이 거부되고 닫힌다.
-        await self.accept()
+        self.accept()
 
     # websocket 연결 해제
-    async def disconnect(self, close_code):
+    def disconnect(self, close_code):
         # Leave room group / 그룹에서 탈퇴
-        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
-        user = text_data_json["user"]
-        user_id = int(text_data_json["user_id"])
-        room_id = int(self.room_name)
-        # Send message to room group / 그룹에 이벤트를 보낸다.
-        # An event has a special 'type' key corresponding to the name of the method
-        # that should be invoked on consumers that receive the event.
-        await self.channel_layer.group_send(self.room_group_name, {"type": "chat_message", "message": message, 'user': user})
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        self.commands[data['command']](self, data)
 
-        # user_model = sync_to_async(UserModel.objects.get, thread_sensitive=True)(id=user_id)
-        # room_model = sync_to_async(Room.objects.get, thread_sensitive=True)(id=room_id)
-        # creat_an_message(user_model, room_model, message)
+    def send_chat_message(self, message):
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,
+            {
+                "type": "chat_message",
+                "message": message
+            }
+        )
+
+    def send_message(self, message):
+        self.send(text_data=json.dumps(message))
+
     # Receive message from room group
-    async def chat_message(self, event):
+    def chat_message(self, event):
         message = event["message"]
-        user = event["user"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message, 'user': user}))
+        self.send(text_data=json.dumps(message))

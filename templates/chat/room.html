@@ -15,19 +15,14 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-6">
-                <form>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1" class="h4 pt-5">Chatroom</label>
-                        <textarea class="form-control" id="chat-log" cols="100" rows="20" readonly>
-{% for ms in message %}{{ ms.user_id }}: {{ ms.message }}
-{% endfor %}
-                        </textarea><br>
+                        <textarea class="form-control" id="chat-log" cols="100" rows="20" readonly></textarea><br>
                     </div>
                     <div class="form-group">
                         <input class="form-control" id="chat-message-input" type="text" size="100"><br>
                     </div>
                     <input class="btn btn-secondary btn-lg btn-block" id="chat-message-submit" type="button" value="Send">
-                </form>
             </div>
         </div>
     </div>
@@ -50,10 +45,26 @@
             + roomName
             + '/'
         );
+
+        // chatSocket에 onopen 메소드 지정
+        chatSocket.onopen = function (e) {
+            fetchMessages();
+        }
+
         // chat-log id를 통해서 기존 message 에 추가해서 message 를 onmessage 해줌
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.user + ': ' + data.message + '\n');
+            if (data['command'] === 'messages') {
+                console.log(data['messages'])
+                console.log(data['messages'][0])
+
+                for (let i = 0; i < data['messages'].length; i++) {
+                    console.log(data['messages'][i])
+                    createMessage(data['messages'][i]);
+                }
+            } else if (data['command'] === 'new_message') {
+                createMessage(data['message']);
+            }
         };
 
         // 에러났을 때는 onclose
@@ -62,7 +73,6 @@
         };
 
         // 엔터를 눌러도 click 이벤트가 발생하게 처리
-        document.querySelector('#chat-message-input').focus();
         document.querySelector('#chat-message-input').onkeyup = function (e) {
             if (e.keyCode === 13) {  // enter, return
                 document.querySelector('#chat-message-submit').click();
@@ -74,16 +84,23 @@
         document.querySelector('#chat-message-submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            {#const user = document.querySelector('#user-email');#}
-            {#const user_email = user.textContent;#}
-            {#const user_id = document.querySelector('#user-id').textContent;#}
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'user': user_email,
-                'user_id': user_id
+                'user_id': user_id,
+                'command': 'new_message'
             }));
             messageInputDom.value = '';
         };
+
+        function fetchMessages() {
+            chatSocket.send(JSON.stringify({'command': 'fetch_messages'}))
+        }
+
+        function createMessage(data) {
+            const author = data['author'];
+            document.querySelector('#chat-log').value += (author + ': ' + data.content + '\n');
+        }
     </script>
 </body>
 </html>
