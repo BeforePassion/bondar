@@ -1,3 +1,6 @@
+$( document ).ready(function() {
+    alert("fds");
+});
 
 function show_d1() {
     $('#d1').show()
@@ -26,3 +29,4 @@ function show_d4() {
     $('#d3').hide()
     $('#d4').show()
 }
+
