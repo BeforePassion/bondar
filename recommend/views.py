@@ -44,3 +44,33 @@ def user_unlike(request, id):
     click_user = UserModel.objects.get(id=id)
     click_user.friends.remove(request.user)
     return redirect('i_like')
+
+
+@login_required
+def both_like_user_view(request):
+    if request.method == 'GET':
+        from user.models import UserModel
+
+        id_list = []
+        like_me_friends_id_list = []
+
+        user = UserModel.objects.get(id=request.user.id)
+        i_like_list = user.friend.all()
+        for friend in i_like_list:
+            id_list.append(friend.id)
+
+        for friend_id in id_list:
+            friend_list = UserModel.objects.get(id=friend_id)
+            friend_like_user_list = friend_list.friend.all()
+            for friend_like_user in friend_like_user_list:
+                friend_like_user_id = friend_like_user.id
+                if friend_like_user_id == request.user.id:
+                    like_me_friends_id_list.append(friend_id)
+
+        set_list = set(id_list) & set(like_me_friends_id_list)
+        both_like_id_list = list(set_list)
+        both_like_user_list = []
+        for id in both_like_id_list:
+            both_like_user = UserModel.objects.get(id=id)
+            both_like_user_list.append(both_like_user)
+    return render(request, 'recommend/both_like.html', {'both_like_user_list': both_like_user_list})

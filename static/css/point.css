@@ -2,7 +2,6 @@
     margin: 100px auto;
     text-align: center;
     max-width: 60vw;
-    background-color: red;
 }
 
 .menu-container {
@@ -35,4 +34,13 @@ button {
 
 .menu {
     height: 500px;
+}
+
+#d2-2 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table, tr, td {
+    border: 1px solid black;
 }

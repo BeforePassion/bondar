@@ -55,7 +55,6 @@ class UserModel(AbstractUser):
     gender = models.CharField(default=0, max_length=80)
     target_gender = models.CharField(default=0, max_length=80)
     is_email_verified = models.BooleanField(default=False)
-    hate = models.IntegerField(default=0)
     invalid_user = models.IntegerField(default=0)
    
     # 폰인증은 제외하기로 함

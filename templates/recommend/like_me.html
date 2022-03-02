@@ -2,8 +2,8 @@
 {% block background %}
 {% endblock %}
 {% block content %}
-    <div style="margin-top: 100px">{{ user.id }}님을 좋아하는 사람들</div>
+    <div class="user_card">{{ user.id }}님을 좋아하는 사람들</div>
     {% for ul in like_me_user_list %}
-            {% include "components/user_card.html" with url=user_img.nst_img_url email=ul.email id=ul.id %}
+            {% include "components/like_me_user_card.html" with url=user_img.nst_img_url email=ul.email id=ul.id %}
     {% endfor %}
 {% endblock %}

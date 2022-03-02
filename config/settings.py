@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import pymysql
 
 import os
 from pathlib import Path
@@ -93,11 +94,15 @@ CHANNEL_LAYERS = {
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
+pymysql.install_as_MySQLdb()
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sys',
+        'USER': 'admin',
+        'PASSWORD': 'admin123',
+        'HOST': 'database-2.cwuszix6ex5r.ap-northeast-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 

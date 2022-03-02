@@ -2,12 +2,14 @@
 {% block background %}
 {% endblock %}
 {% block content %}
-    <div style="margin-top: 100px">{{ user.id }}님의 마음에 드는 사람을 골라보세영</div>
-    {% for ul in user_list %}
-        {% if ul.id != user.id %}
-                {% if ul not in user.friend.all %}
-                    {% include "components/user_card.html" with url=user_img.nst_img_url email=ul.email %}
+    <p>{{ user.id }}님의 마음에 드는 사람을 골라보세영</p>
+    <div class="user_container">
+        <div class="user_card_wrapper">
+            <div class="user_card">
+                {% if user_list.0 not in user.friend.all %}
+                    {% include "components/main_user_card.html" with url=user_img.nst_img_url email=user_list.0.email %}
                 {% endif %}
-        {% endif %}
-    {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

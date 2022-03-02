@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block background %}
+{% endblock %}
+{% block content %}
+    <div style="margin-top: 100px">{{ user.id }}님과 서로 좋아하는 사람들</div>
+    {% for ul in both_like_user_list %}
+        {% include "components/both_like_user_card.html" with url=user_img.nst_img_url email=ul.email id=ul.id %}
+    {% endfor %}
+{% endblock %}

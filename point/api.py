@@ -19,7 +19,7 @@ def my_point(request):
 def charge(request, point):
     p = request.user.point
     UserModel.objects.filter(id=request.user.id).update(point=p+int(point))
-    PointHistory.objects.create(user_id=request.user.id, point=p+int(point), history='charge', usage=True)
+    PointHistory.objects.create(user_id=request.user.id, point=int(point), history='charge', usage=True)
     return redirect('/point')
 
 
@@ -33,6 +33,5 @@ def charge_history(request):
 @api_point.get("/usage_history")
 def usage_history(request):
     data = PointHistory.objects.filter(user_id=request.user.id, usage=False)
-    print(data)
     data = list(data.values())
     return JsonResponse(data, safe=False)
