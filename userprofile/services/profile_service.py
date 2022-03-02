@@ -6,6 +6,15 @@ from user.models import UserModel
 from userprofile.models import UserProfile
 
 
+def update_user(user_id: int, username: str, birth: str, target_gender: str) -> UserModel:
+    user = UserModel.objects.filter(id=user_id).get()
+    user.username = username
+    user.birth = birth
+    user.target_gender = target_gender
+    user.save()
+    return user
+
+
 def load_image(user_id: int) -> UserProfile:
     return UserProfile.objects.filter(user_id=user_id).get()
 
