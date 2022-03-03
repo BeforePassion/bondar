@@ -1,4 +1,9 @@
-.card_container {
+.user_card_container {
+    display: flex;
+    justify-content: center;
+}
+
+.user_card_wrapper {
     background-image: url('https://ww.namu.la/s/4c30cf3fed5c1a9052a52b527b9c3a4ae98534ee72dfbfd8d728cec568db7a657709d8d87507681663b495ed4355acd9049fd552bf810bda0c5252715ba7c634afbf2c6a859c5b58ab29f98ea6bbb7fa06bfae2f6b436da1788b894c5159627a51f8ade4471387cd3257ab146113095e');
     background-repeat: no-repeat;
     background-position: center center;
