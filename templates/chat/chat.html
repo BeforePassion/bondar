@@ -1,37 +1,31 @@
 {% extends 'base.html' %}
-{% block background %}
-{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href='../../static/css/chat.css'>
+{% endblock css %}
+
+{% block page_title %}
+    chat
+{% endblock page_title %}
+
 {% block content %}
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
-
-    {% if chat_info == None %}
-        <h1>참여중인 채팅방이 없습니다</h1>
-    {% else %}
-        {% for key, value in chat_info.items %}
+    <div class="md:container md:mx-auto mt-16 h-full flex justify-around items-center">
+        <div class="chat-content">
             <div>
-                <a href="/chat/{{ key }}">{{ value.0 }} ❤ {{ value.1 }} 채팅방</a>
-            </div>
-        {% endfor%}
-        {{ chat_info }}
-    {% endif %}
-    <script>
-        // js querySelector 을 이용해서 room-name-input id 를 가진 객체를 가져온다
-        // .focus() : 포커스 받으면 이벤트 시작??
-        document.querySelector('#room-name-input').focus();
-        // input 박스에서 enter 누를 때 click 이벤트 발생
-        document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#room-name-submit').click();
-            }
-        };
+                    <p id="chatroom-list">Chat room list</p>
+                {% if chat_info == None %}
+                    <p>참여중인 채팅방이 없습니다</p>
+                {% else %}
+                    </div>
+                    <div>
+                        {% for key, value in chat_info.items %}
+                            <a href="/chat/{{ key }}">
+                                <div class="chat-room-a">{{ value.0 }} ❤ {{ value.1 }} 채팅방</div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            // room-name-submit 아이디를 가진 요소에 onclick 이벤트가 발생하면 roomName 변수 생성
-            var roomName = document.querySelector('#room-name-input').value;
-            // 해당 룸네임 url path로 이동
-            window.location.pathname = '/chat/' + roomName + '/';
-        };
-    </script>
+        </div>
+    </div>
 {% endblock %}

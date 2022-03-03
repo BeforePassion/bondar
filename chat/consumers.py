@@ -7,13 +7,12 @@ and then calls various functions on the consumer to handle events from the conne
 # websocket 요청을 처리하는 함수는 consumers.py 에입력
 import json
 
-from asgiref.sync import sync_to_async, async_to_sync
+from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
 from chat.models import Room, Message
-from chat.services.message_service import creat_an_message
 
-# 비동기식 방법으로 진행
+# 동기식 방법으로 진행
 from user.models import UserModel
 
 
@@ -33,14 +32,14 @@ class ChatConsumer(WebsocketConsumer):
         room_id = int(self.room_name)
         user_contact = UserModel.objects.filter(id=user_id)[0]
         room_contact = Room.objects.filter(id=room_id)[0]
-        message = Message.objects.create(
+        message_creat = Message.objects.create(
             user_id=user_contact,
             room_id=room_contact,
             message=data['message']
         )
         content = {
             'command': 'new_message',
-            'message': self.message_to_json(message)
+            'message': self.message_to_json(message_creat)
         }
         return self.send_chat_message(content)
 
@@ -52,7 +51,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def message_to_json(self, message):
         return {
-            'author': message.user_id.email,
+            'author': message.user_id.username,
             'content': message.message,
             'timestamp': str(message.created_at)
         }

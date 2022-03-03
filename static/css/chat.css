@@ -1,0 +1,33 @@
+
+
+.chat-wrapper {
+    width: 50vw;
+    margin: 20% auto auto auto;
+    max-width: 550px;
+    min-width: 550px;
+}
+
+.chat-content{
+    background-color: white;
+    text-align: center;
+    padding: 10px 30px;
+    margin-top: 50px;
+    border-radius: 15px;
+    width: 50%;
+    height: 60vh;
+}
+
+.chat-room-a{
+    background-color: pink;
+    border-radius: 15px;
+    margin: 15px 0;
+    padding: 5px 0;
+    font-weight: 500;
+    color: white;
+}
+
+#chatroom-list{
+    font-weight: 900;
+    font-size: x-large;
+
+}
