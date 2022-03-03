@@ -4,7 +4,7 @@
 {% block content %}
     <div class="user_card" style="display: flex; flex-wrap: wrap">
         {% for ul in both_like_user_list %}
-            {% include "components/both_like_user_card.html" with url=user_img.nst_img_url email=ul.email username=ul.username %}
+            {% include "components/both_like_user_card.html" with url=user_img.nst_img_url email=ul.email username=ul.username id=ul.id %}
         {% endfor %}
     </div>
 {% endblock %}
