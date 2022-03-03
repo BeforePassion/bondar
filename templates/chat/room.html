@@ -7,96 +7,98 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/css/chatting.css"/>
     <title>Chat room</title>
 </head>
 <body>
-    <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1" class="h4 pt-5">{{ user.username }}</label>
-                        <textarea class="form-control" id="chat-log" cols="100" rows="20" readonly></textarea><br>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control" id="chat-message-input" type="text" size="100"><br>
-                    </div>
-                    <input class="btn btn-secondary btn-lg btn-block" id="chat-message-submit" type="button" value="Send">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6">
+            <div class="form-group">
+                <img src="{{ user_profile }}" alt=""/>
+                <label for="exampleFormControlTextarea1" class="h4 pt-5">
+                    {{ user.username }}</label>
+                <textarea class="form-control" id="chat-log" cols="100" rows="20" readonly></textarea><br>
             </div>
+            <div class="form-group">
+                <input class="form-control" id="chat-message-input" type="text" size="100"><br>
+            </div>
+            <input class="btn btn-secondary btn-lg btn-block" id="chat-message-submit" type="button" value="Send">
         </div>
     </div>
-    <!--room_name 을 핸들링 하는 json script-->
-    {{ room_name|json_script:"room-name" }}
-    {{ user.username|json_script:"user_email" }}
-    {{ user.id|json_script:"user_id" }}
-    <script>
-        <!--roomName 변수에 room_name 할당-->
-        // JSON.parse() 메소드 : json 문자열의 구문을 분석하고 결과로 javascript 값이나 객체 생성
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-        const user_email = JSON.parse(document.getElementById('user_email').textContent);
-        const user_id = JSON.parse(document.getElementById('user_id').textContent);
+</div>
+<!--room_name 을 핸들링 하는 json script-->
+{{ room_name|json_script:"room-name" }}
+{{ user.username|json_script:"user_email" }}
+{{ user.id|json_script:"user_id" }}
+<script>
+    <!--roomName 변수에 room_name 할당-->
+    // JSON.parse() 메소드 : json 문자열의 구문을 분석하고 결과로 javascript 값이나 객체 생성
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    const user_email = JSON.parse(document.getElementById('user_email').textContent);
+    const user_id = JSON.parse(document.getElementById('user_id').textContent);
 
-        // chatSocket 변수에 생선된 webSocket 할당 / ws://ws/chat/roomName
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+    // chatSocket 변수에 생선된 webSocket 할당 / ws://ws/chat/roomName
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
 
-        // chatSocket에 onopen 메소드 지정
-        chatSocket.onopen = function (e) {
-            fetchMessages();
-        }
+    // chatSocket에 onopen 메소드 지정
+    chatSocket.onopen = function (e) {
+        fetchMessages();
+    }
 
-        // chat-log id를 통해서 기존 message 에 추가해서 message 를 onmessage 해줌
-        chatSocket.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            if (data['command'] === 'messages') {
-                for (let i = 0; i < data['messages'].length; i++) {
-                    createMessage(data['messages'][i]);
-                }
-            } else if (data['command'] === 'new_message') {
-                createMessage(data['message']);
+    // chat-log id를 통해서 기존 message 에 추가해서 message 를 onmessage 해줌
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        if (data['command'] === 'messages') {
+            for (let i = 0; i < data['messages'].length; i++) {
+                createMessage(data['messages'][i]);
             }
-        };
-
-        // 에러났을 때는 onclose
-        chatSocket.onclose = function (e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        // 엔터를 눌러도 click 이벤트가 발생하게 처리
-        document.querySelector('#chat-message-input').onkeyup = function (e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        // onclick 이벤트가 발생하면 input value를 message에 저장해서 json형태로 chatSocket으로 전송
-        // chatSocket 전송이 완료되면 input box value 를 공백으로 초기화
-        document.querySelector('#chat-message-submit').onclick = function (e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'user': user_email,
-                'user_id': user_id,
-                'command': 'new_message'
-            }));
-            messageInputDom.value = '';
-        };
-
-        function fetchMessages() {
-            chatSocket.send(JSON.stringify({'command': 'fetch_messages'}))
+        } else if (data['command'] === 'new_message') {
+            createMessage(data['message']);
         }
+    };
 
-        function createMessage(data) {
-            const author = data['author'];
-            document.querySelector('#chat-log').value += (author + ': ' + data.content + '\n');
+    // 에러났을 때는 onclose
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    // 엔터를 눌러도 click 이벤트가 발생하게 처리
+    document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
         }
-    </script>
+    };
+
+    // onclick 이벤트가 발생하면 input value를 message에 저장해서 json형태로 chatSocket으로 전송
+    // chatSocket 전송이 완료되면 input box value 를 공백으로 초기화
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'user': user_email,
+            'user_id': user_id,
+            'command': 'new_message'
+        }));
+        messageInputDom.value = '';
+    };
+
+    function fetchMessages() {
+        chatSocket.send(JSON.stringify({'command': 'fetch_messages'}))
+    }
+
+    function createMessage(data) {
+        const author = data['author'];
+        document.querySelector('#chat-log').value += (author + ': ' + data.content + '\n');
+    }
+</script>
 </body>
 </html>

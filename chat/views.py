@@ -11,6 +11,10 @@ from user.models import UserModel
 
 from collections import Counter
 
+from userprofile.models import UserProfile
+
+
+
 # Create your views here. / views 호출하려면 매핑되는 URLconf 필요
 # chat_view 함수를 호출하면 chat.html 을 렌더해주는 함수
 @login_required
@@ -53,7 +57,10 @@ def room_view(request: HttpRequest, room_name: str) -> HttpResponse:
         confirm_user_chat_room_join(request.user.id, room_id)
 
         message = get_an_message_list(room_id)
-        return render(request, "chat/room.html", {"room_name": room_name, "message": message})
+
+        user_profile = UserProfile.objects.get(user_id=request.user).nst_image_url
+
+        return render(request, "chat/room.html", {"room_name": room_name, "message": message, "user_profile": user_profile})
 
     except:
         return redirect(("/chat"))
