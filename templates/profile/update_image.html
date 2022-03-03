@@ -58,7 +58,7 @@
         .innerHTML
         .replace(/\s/g, '')
       //file이름과 file을 formdata 로 변환
-      form_data.append('key', '{{ user.id}}');
+      form_data.append('key', '{{ user.id }}');
       form_data.append('type', text)
       form_data.append('img', file);
       $

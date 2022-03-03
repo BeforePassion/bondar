@@ -30,7 +30,7 @@ def chat_view(request: HttpRequest) -> HttpResponse:
 
             username_list = []
             for chat_user in chat_user_list:
-                username = chat_user.user_id.email
+                username = chat_user.user_id.username
                 username_list.append(username)
 
             # chat_info 변수에 딕셔너리 형태로 저장

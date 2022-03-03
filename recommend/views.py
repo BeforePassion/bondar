@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from user.models import UserModel
 from django.contrib.auth.decorators import login_required
+
+from userprofile.models import UserProfile
 # Create your views here.
 
 
@@ -8,19 +10,27 @@ from django.contrib.auth.decorators import login_required
 def i_like_user_view(request):
     if request.method == 'GET':
         # 현재 로그인 한 유저의 아이디 불러오기
+        newList = []
         user = UserModel.objects.get(id=request.user.id)
+
         # 현재 로그인 한 유저가 좋아요 한 계정 전체 불러오기
         i_like_user_list = user.friend.all()
-        return render(request, 'recommend/i_like.html', {'i_like_user_list': i_like_user_list})
+        for u in i_like_user_list:
+            newList.append([u, UserProfile.objects.filter(user=u.id)])
+
+        return render(request, 'recommend/i_like.html', {'i_like_user_list': newList})
 
 
 @login_required
 def hate_user_view(request):
     if request.method == 'GET':
+        newList = []
         # 현재 로그인 한 유저의 아이디 불러오기
         user = UserModel.objects.get(id=request.user.id)
         i_hate_user_list = user.hate.all()
-        return render(request, 'recommend/i_hate.html', {'i_hate_user_list': i_hate_user_list})
+        for u in i_hate_user_list:
+            newList.append([u, UserProfile.objects.filter(user=u.id)])
+        return render(request, 'recommend/i_hate.html', {'i_hate_user_list': newList})
 
 
 @login_required
@@ -28,6 +38,7 @@ def like_me_user_view(request):
     if request.method == 'GET':
         user_list = UserModel.objects.exclude(id=request.user.id)
         id_list = []
+        newList = []
         like_me_friends_id_list = []
         like_me_user_list = []
         for user in user_list:
@@ -45,7 +56,9 @@ def like_me_user_view(request):
         for like_me_friends_id in like_me_friends_id_list:
             like_me_friend = UserModel.objects.get(id=like_me_friends_id)
             like_me_user_list.append(like_me_friend)
-        return render(request, 'recommend/like_me.html', {'like_me_user_list': like_me_user_list})
+        for u in like_me_user_list:
+            newList.append([u, UserProfile.objects.filter(user=u.id)])
+        return render(request, 'recommend/like_me.html', {'like_me_user_list': newList})
 
 
 @login_required
@@ -68,6 +81,7 @@ def both_like_user_view(request):
         from user.models import UserModel
 
         id_list = []
+        newList = []
         like_me_friends_id_list = []
 
         user = UserModel.objects.get(id=request.user.id)
@@ -89,4 +103,6 @@ def both_like_user_view(request):
         for id in both_like_id_list:
             both_like_user = UserModel.objects.get(id=id)
             both_like_user_list.append(both_like_user)
-    return render(request, 'recommend/both_like.html', {'both_like_user_list': both_like_user_list})
+        for u in both_like_user_list:
+            newList.append([u, UserProfile.objects.filter(user=u.id)])
+    return render(request, 'recommend/both_like.html', {'both_like_user_list': newList})
