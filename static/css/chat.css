@@ -18,12 +18,14 @@
 }
 
 .chat-room-a{
-    background-color: pink;
+    border: solid;
+    border-color: #FF4F59 ;
     border-radius: 15px;
+    background-color: #f6bcbf ;
+    color: whitesmoke;
     margin: 15px 0;
     padding: 5px 0;
     font-weight: 500;
-    color: white;
 }
 
 #chatroom-list{
