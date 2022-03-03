@@ -50,6 +50,7 @@ class UserModel(AbstractUser):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255)
     friend = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="friends")
+    hate = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="hates")
     point = models.IntegerField(default=0)
     birth = models.CharField(default=0, max_length=8)
     gender = models.CharField(default=0, max_length=80)

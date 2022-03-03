@@ -5,6 +5,8 @@ from user.models import UserModel
 from point.models import PointHistory
 from point.schema import NotEnoughPoint, PointSchema
 from django.shortcuts import redirect
+from django.core.paginator import Paginator
+from django.core import serializers
 
 api_point = NinjaAPI(urls_namespace="point")
 
@@ -23,10 +25,17 @@ def charge(request, point):
     return redirect('/point')
 
 
-@api_point.get("/charge_history")
-def charge_history(request):
+@api_point.get("/charge_history/{page}")
+def charge_history(request, page: int):
     data = PointHistory.objects.filter(user_id=request.user.id, usage=True)
     data = list(data.values())
+    p = Paginator(data, 5)
+    total_page = p.num_pages
+    p_data = p.page(page)
+    p_data = p_data.object_list
+    t_page = {"total_page": total_page}
+    data = {"p": p_data, "t": t_page}
+
     return JsonResponse(data, safe=False)
 
 

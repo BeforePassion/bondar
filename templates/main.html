@@ -2,14 +2,9 @@
 {% block background %}
 {% endblock %}
 {% block content %}
-    <p>{{ user.id }}님의 마음에 드는 사람을 골라보세영</p>
-    <div class="user_container">
-        <div class="user_card_wrapper">
-            <div class="user_card">
-                {% if user_list.0 not in user.friend.all %}
-                    {% include "components/main_user_card.html" with url=user_img.nst_img_url email=user_list.0.email %}
-                {% endif %}
-            </div>
-        </div>
+    <div class="user_card">
+        {% if user_list.0 not in user.friend.all and user_list.0 not in user.hate.all %}
+            {% include "components/main_user_card.html" with url=user_img.nst_img_url username=user_list.0.username email=user_list.0.email id=user_list.0.id %}
+        {% endif %}
     </div>
 {% endblock %}
