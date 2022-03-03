@@ -29,8 +29,8 @@
           <input id="target-female" onclick="on_select_taget_gender(this)" type="button" value="여성" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
           <input id="target-both" onclick="on_select_taget_gender(this)" type="button" value="모두" class="transition duration-300 ease-in-out p-4 mx-2 rounded-md border-2 border-zinc-400 cursor-pointer hover:transition-all hover:bg-rose-500 hover:text-white">
         </div>
-        <div class="flex justify-center items-center text-white mt-10">
-          <button type="submit" class="mainColor rounded-md w-32 h-12 flex justify-center items-center active:bg-red-700">
+        <div class="flex justify-center items-center text-white mt-16">
+          <button id='start-btn' type="submit" class="hidden mainColor rounded-md w-32 h-12 justify-center items-center active:bg-red-700">
             <span id="change-btn-text">시작하기</span>
           </button>
         </div>
@@ -40,7 +40,7 @@
       <div id="card-container" class="mb-6">
         <label for="file-input">
           <img id="user-img" class="bg-cover bg-center w-80 h-96 cursor-pointer rounded-md hidden" src="" alt="">
-          <div id="user-img-mask" class="bg-gray-300 w-80 h-96 cursor-pointer rounded-md"></div>
+          <div id="user-img-mask" class="bg-gray-800 w-80 h-96 cursor-pointer rounded-md"></div>
           <input id='file-input' type="file" class="hidden">
         </label>
       </div>
@@ -54,8 +54,10 @@
         </button>
       </div>
     </div>
+    
   </div>
   <script>
+    const picture = ['불','물','반고흐','이중섭','밀레']
     function on_select_gender(e) {
       let gender = document.querySelector("#my-gender");
       let male = $('#my-male')
@@ -150,7 +152,8 @@
             cache: false,
             processData: false,
             success: function (response) {
-              console.log(response)
+              $('#start-btn').removeClass('hidden')
+              $('#start-btn').addClass('flex')
             }
           })
         })
