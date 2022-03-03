@@ -2,18 +2,18 @@
 
 <div id="card-container"
      style="margin: 5rem; background-color: white; border: #243140 solid 3px; border-radius: 30px; width: 400px; height: 500px">
-    <img id="user-img" class="mt-3 bg-cover bg-center w-full h-70" src="{{ ul.1.0.nst_image_url }}" alt="">
-    <p id="ul-id" class="w-80" style="margin-left: 50px; font-size: 30px">{{ ul.0.username }}</p>
-    <p id="ul-email" class="w-80" style="margin-left: 50px">{{ ul.0.email }}</p>
+    <img id="user-img" class="bg-cover bg-center w-full h-70" src="{{ ul.1.0.nst_image_url }}"
+          style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
+    <p id="ul-id" class="w-80" style="margin-left: 50px; font-size: 25px">{{ ul.0.username }}</p>
     <div id="icon-box" class="w-full flex justify-between">
-        <div class="w-[3rem]" style="margin-top: 18px; margin-left: 50px">
+        <div class="w-[3rem]" style="margin-top: 8px; margin-left: 50px">
             <a href="hate2/{{ ul.0.id }}">
                 <img src="{% static 'img/empty_broken_heart.png' %}"
                      onmouseover="this.src='../static/img/broken_heart.png'"
                      onmouseout="this.src='../static/img/empty_broken_heart.png'">
             </a>
         </div>
-        <div class="w-[3.6rem] mt-5" style="margin-top: 10px; margin-right: 50px">
+        <div class="w-[3.6rem] mt-5" style="margin-top: 1px; margin-right: 50px">
             <a href="like2/{{ ul.0.id }}">
                 <img src="{% static 'img/empty_heart.png' %}" onmouseover="this.src='../static/img/heart.png'"
                      onmouseout="this.src='../static/img/empty_heart.png'">
