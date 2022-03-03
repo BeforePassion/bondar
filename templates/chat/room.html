@@ -28,7 +28,7 @@
     </div>
     <!--room_name 을 핸들링 하는 json script-->
     {{ room_name|json_script:"room-name" }}
-    {{ user.email|json_script:"user_email" }}
+    {{ user.username|json_script:"user_email" }}
     {{ user.id|json_script:"user_id" }}
     <script>
         <!--roomName 변수에 room_name 할당-->
@@ -55,11 +55,7 @@
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
             if (data['command'] === 'messages') {
-                console.log(data['messages'])
-                console.log(data['messages'][0])
-
                 for (let i = 0; i < data['messages'].length; i++) {
-                    console.log(data['messages'][i])
                     createMessage(data['messages'][i]);
                 }
             } else if (data['command'] === 'new_message') {
