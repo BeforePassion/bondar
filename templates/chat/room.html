@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
+{% block css %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,9 +8,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="../../static/css/chatting.css"/>
-    <title>Chat room</title>
-</head>
-<body>
+{% endblock css %}
+{% block page_title %}
+    Chat room
+{% endblock page_title %}
+
+{% block content %}
 <div class="container">
     <div class="row d-flex justify-content-center">
         <div class="col-6">
@@ -32,6 +34,7 @@
 {{ room_name|json_script:"room-name" }}
 {{ user.username|json_script:"user_email" }}
 {{ user.id|json_script:"user_id" }}
+{% endblock %}
 <script>
     <!--roomName 변수에 room_name 할당-->
     // JSON.parse() 메소드 : json 문자열의 구문을 분석하고 결과로 javascript 값이나 객체 생성
