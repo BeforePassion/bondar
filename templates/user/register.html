@@ -56,6 +56,7 @@
     </div>
   </div>
   <script>
+    const picture = ['불','물','반고흐','이중섭','밀레']
     function on_select_gender(e) {
       let gender = document.querySelector("#my-gender");
       let male = $('#my-male')
@@ -112,7 +113,7 @@
       const file = $('#file-input')[0].files[0];
       //file이름과 file을 formdata 로 변환
       form_data.append('key', '{{ user.id }}');
-      form_data.append('type', '불')
+      form_data.append('type', picture[Math.random()*5])
       form_data.append('img', file);
       $
         .ajax({ //nst 서버에서 장고닌자로 만들었던 api upload 주소에 formdata와 함께 보낸다
